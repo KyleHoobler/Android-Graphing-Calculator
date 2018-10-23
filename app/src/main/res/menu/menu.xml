@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/Add"
+        android:contentDescription="Add a new Item"
+        android:orderInCategory="300"
+        android:title="Add"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/calcMenu"
+        android:orderInCategory="0"
+        android:title="Calculator" />
+    <item
+        android:id="@+id/graphMenu"
+        android:orderInCategory="350"
+        android:title="Graph" />
+
+    <item
+        android:id="@+id/equationMenu"
+        android:orderInCategory="1"
+        android:title="Formulas" />
+
+</menu>

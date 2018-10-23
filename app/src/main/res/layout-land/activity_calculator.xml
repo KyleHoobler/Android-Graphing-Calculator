@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Calculator">
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="103dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="180dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.41"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <HorizontalScrollView
+        android:id="@+id/ScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/SkyBlue"
+        android:orientation="horizontal"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline6"
+        app:layout_constraintVertical_bias="0.0">
+
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/Seven"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="@string/_7"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/Nine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="@string/_9"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/Eight"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="@string/_8"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/Sine"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="Sin("
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/cosine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="COS("
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/tangent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="TAN("
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/Four"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="@string/_4"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/Five"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="@string/_5"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/Six"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="@string/_6"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/NaturalLog"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="ln"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/Log"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="LOG("
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/factorial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="!"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/One"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="@string/_1"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/Two"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="@string/_2"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/Three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="@string/_3"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/PI"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="π "
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/E"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="E"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/Power"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="^"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/negate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="±"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/Zero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="@string/_0"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/Decimal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="."
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/LeftParen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="("
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/RightParen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text=")"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/SquareRoot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/SkyBlue"
+                    android:fontFamily="@font/open_sans"
+                    android:text="√"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp" />
+
+            </TableRow>
+        </TableLayout>
+    </HorizontalScrollView>
+
+    <ScrollView
+        android:id="@+id/TextScroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/DisplayNum"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/offWhite"
+            android:fontFamily="@font/open_sans"
+            android:gravity="bottom"
+            android:maxLines="1"
+            android:overScrollMode="ifContentScrolls"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
+            android:scrollHorizontally="true"
+            android:text="TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest"
+            android:textColor="@color/Black"
+            android:textSize="56sp"
+            android:typeface="normal"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.137" />
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/ScrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/Divide"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TextScroll">
+
+        <Button
+            android:id="@+id/ClearEvery"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/Gray"
+            android:fontFamily="@font/open_sans"
+            android:text="CE"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@+id/ScrollView"
+            app:layout_constraintEnd_toStartOf="@+id/Clear"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guideline" />
+
+        <Button
+            android:id="@+id/Clear"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/Gray"
+            android:fontFamily="@font/open_sans"
+            android:text="C"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@+id/guideline6"
+            app:layout_constraintEnd_toStartOf="@+id/Back"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="@+id/guideline"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/Back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/Gray"
+            android:fontFamily="@font/open_sans"
+            android:text="Del"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@+id/guideline6"
+            app:layout_constraintEnd_toStartOf="@+id/guideline5"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toTopOf="@+id/guideline"
+            app:layout_constraintVertical_bias="0.0" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/equals"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/LighterGray"
+        android:text="="
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ScrollView"
+        app:layout_constraintTop_toTopOf="@+id/guideline7" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.84" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.69" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.54" />
+
+    <Button
+        android:id="@+id/Add"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/LighterGray"
+        android:fontFamily="@font/open_sans"
+        android:text="+"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="@+id/guideline8" />
+
+    <Button
+        android:id="@+id/Subtract"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/LighterGray"
+        android:fontFamily="@font/open_sans"
+        android:text="-"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/Add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="@+id/guideline9" />
+
+    <Button
+        android:id="@+id/Multiply"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/LighterGray"
+        android:fontFamily="@font/open_sans"
+        android:text="*"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/Subtract"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="@+id/guideline6" />
+
+    <Button
+        android:id="@+id/Divide"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/LighterGray"
+        android:fontFamily="@font/open_sans"
+        android:text="÷"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/Multiply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <ImageButton
+        android:id="@+id/menuButton"
+        style="?android:attr/actionOverflowButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="477dp"
+        app:layout_constraintGuide_percent="0.80" />
+
+</android.support.constraint.ConstraintLayout>

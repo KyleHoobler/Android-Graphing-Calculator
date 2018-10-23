@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+    <item
+        android:id="@+id/Calculator"
+        android:title="Calculator" />
+    <item
+        android:id="@+id/equations_Menu"
+        android:title="Formulas"/>
+
+    <item
+        android:id="@+id/Graph_Menu"
+        android:title="Graph"/>
+
+</menu>
