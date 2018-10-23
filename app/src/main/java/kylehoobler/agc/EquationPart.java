@@ -1,5 +1,7 @@
 package kylehoobler.agc;
 
+import android.widget.TextView;
+
 /**
  * Super class with priority system
  *

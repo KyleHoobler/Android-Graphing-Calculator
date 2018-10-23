@@ -8,12 +8,14 @@ public class Number extends EquationPart {
     private BigDecimal value;
 
     protected Number(){
+        this.setDisplayItem("0");
         value = new BigDecimal(0);
         this.setPriority(0);
     }
 
     protected Number(BigDecimal value){
-        this.setDisplayItem(value +"");
+
+        this.setDisplayItem(value.stripTrailingZeros() +"");
         this.value = value;
         this.setPriority(0);
 

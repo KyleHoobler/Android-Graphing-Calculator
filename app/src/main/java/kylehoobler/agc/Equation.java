@@ -26,7 +26,7 @@ public class Equation {
 
 
         isDecimal = false;
-        decimalCount = 0;
+        this.decimalCount = 0;
         equation = new ArrayList<EquationPart>();
 
     }
@@ -50,10 +50,17 @@ public class Equation {
         return equation;
     }
 
+    protected boolean getIsDecimal(){
+        return isDecimal;
+    }
+
     protected void setEquation(ArrayList<EquationPart> e){
         equation = e;
     }
 
+    protected int getDecimalCount(){
+        return this.decimalCount;
+    }
 
 
     protected boolean isEmpty(){
@@ -70,7 +77,7 @@ public class Equation {
 
     protected void clearEQ(){
         isDecimal = false;
-        decimalCount = 0;
+        this.decimalCount = 0;
         equation = new ArrayList<EquationPart>();
         equation.clear();
         text.setText(null);
@@ -100,62 +107,66 @@ public class Equation {
 
     protected Equation solve(){
 
-        try {
 
-            int limit = 305;
+
+
+            int limit = 999;
             int i = 0;
 
-            while (equation.size() > 1) {
+            if(!equation.isEmpty()) {
+                if (equation.size() == 1 && equation.get(0).getClass() == StartParenthesis.class){
 
-                if(i > limit) {
-                    Log.d("Test: ", "Num Iterations: " + i + " Equation size: " + equation.size() + " EQ: " + equation.toString());
-                    break;
-
-                }
-                i++;
-
-                Pair<Integer, Integer> tmp = getMaxPriority();
-                if (equation.get(tmp.second).getClass() == Operation.class) {
-
-                    if (tmp.second != equation.size()) {
-                        equation.set(tmp.second, ((Operation) equation.get(tmp.second)).solveOp((Number) equation.get(tmp.second - 1), (Number) equation.get(tmp.second + 1)));
-
-                        if(((Number)equation.get(tmp.second)).getValue().doubleValue() != ((Number)equation.get(tmp.second)).getValue().intValue()) {
-                            isDecimal = true;
-                            String[] splitter = ((Number)equation.get(tmp.second)).getValue().stripTrailingZeros().toString().split("\\.");
-                            if(splitter.length == 2)
-                                decimalCount = splitter[1].length();
-
-                        }
-                        else{
-                            isDecimal = false;
-                            decimalCount = 0;
-                        }
-                            equation.remove(tmp.second + 1);
-                            equation.remove(tmp.second - 1);
-
-                        updateTextView();
-
-                    }
-
-                }
-                else if(equation.get(tmp.second).getClass() == EndParenthesis.class) {
-                    equation.remove(equation.get(tmp.second));
+                    equation.set(0,((StartParenthesis)equation.get(0)).ParenSolve());
                     updateTextView();
                 }
-                else if(equation.get(tmp.second).getClass() == StartParenthesis.class){
-                    equation.set(tmp.second, ((StartParenthesis)equation.get(tmp.second)).ParenSolve());
-                }
 
+                    while (equation.size() > 1) {
 
+                        if (i > limit) {
+                            Log.d("Test: ", "Num Iterations: " + i + " Equation size: " + equation.size() + " EQ: " + equation.toString());
+                            break;
+
+                        }
+                        i++;
+                        Log.d("test", "Before " + equation.size() + "");
+                        Pair<Integer, Integer> tmp = getMaxPriority();
+                        if (equation.get(tmp.second).getClass() == Operation.class) {
+
+                            if (tmp.second != equation.size()) {
+
+                                Log.d("test", "Content " + equation.toString()+"");
+                                equation.set(tmp.second, ((Operation) equation.get(tmp.second)).solveOp((Number) equation.get(tmp.second - 1), (Number) equation.get(tmp.second + 1)));
+
+                                if (((Number) equation.get(tmp.second)).getValue().doubleValue() != ((Number) equation.get(tmp.second)).getValue().intValue()) {
+                                    isDecimal = true;
+                                    String[] splitter = ((Number) equation.get(tmp.second)).getValue().stripTrailingZeros().toString().split("\\.");
+                                    if (splitter.length == 2)
+                                        decimalCount = splitter[1].length();
+
+                                } else {
+                                    isDecimal = false;
+                                    decimalCount = 0;
+                                }
+                                equation.remove(tmp.second + 1);
+                                equation.remove(tmp.second - 1);
+
+                                updateTextView();
+
+                            }
+
+                        } else if (equation.get(tmp.second).getClass() == EndParenthesis.class) {
+                            equation.remove(equation.get(tmp.second));
+                            updateTextView();
+                        } else if (equation.get(tmp.second).getClass() == StartParenthesis.class) {
+                            equation.set(tmp.second, ((StartParenthesis) equation.get(tmp.second)).ParenSolve());
+                        }
+
+                        Log.d("test", "After " + equation.size() + "");
+                    }
             }
 
-        }
-       catch(Exception e){
 
-            clearEQ();
-            text.setText("Err: " + e.getMessage());
-        }
+
 
 
 
@@ -170,8 +181,10 @@ public class Equation {
 
                 //Handles Number representation
                 if (equation.get(i).getClass() == Number.class) {
-
-                    text.setText(text.getText() + "" + ((Number) equation.get(i)).getValue().stripTrailingZeros().toPlainString());
+                    if(decimalCount == 0)
+                        text.setText(text.getText() + "" + ((Number) equation.get(i)).getValue().stripTrailingZeros().toPlainString());
+                    else
+                        text.setText(text.getText() + "" + ((Number) equation.get(i)).getValue());
 
                 } else if (equation.get(i).getClass() == StartParenthesis.class) {
                     text.setText(text.getText() + equation.get(i).getDisplayItem());
@@ -204,23 +217,46 @@ public class Equation {
     }
 
     protected boolean add(Decimal e){
+
+
         if(!isDecimal) {
-            if (equation.isEmpty())
+            if (equation.isEmpty()) {
                 equation.add(new Number(new BigDecimal(0)));
+                equation.add(e);
+            }
             else if(equation.get(equation.size()-1).getClass() == Operation.class){
                 equation.add(new Number(new BigDecimal(0)));
-
-            }
-            else if (equation.get(equation.size() - 1).getClass() == Number.class)
                 equation.add(e);
-            else if(equation.get(equation.size()-1).getClass() == StartParenthesis.class){
-                Equation tmp = ((StartParenthesis)equation.get(equation.size()-1)).getEq();
-                tmp.add(e);
-                ((StartParenthesis)equation.get(equation.size()-1)).setEq(tmp);
+
 
             }
+            else if (equation.get(equation.size() - 1).getClass() == Number.class) {
+                if(!isDecimal)
+                    equation.add(e);
 
+            }
+            else if(equation.get(equation.size()-1).getClass() == StartParenthesis.class){
 
+                Equation tmp = ((StartParenthesis)equation.get(equation.size()-1)).getEq();
+                if(!tmp.isEmpty()) {
+                    if (tmp.get(tmp.size() - 1).getClass() != EndParenthesis.class) {
+                        tmp.add(e);
+                        ((StartParenthesis) equation.get(equation.size() - 1)).setEq(tmp);
+                    }
+                    else{
+                        equation.add(new Operation(EquationPart.MULT));
+                        equation.add(new Number(0.0));
+                        equation.add(e);
+
+                    }
+                }
+                else{
+                    equation.add(new Number(0.0));
+                    tmp.add(e);
+                    ((StartParenthesis) equation.get(equation.size() - 1)).setEq(tmp);
+                }
+
+            }
 
             updateTextView();
         }
@@ -249,6 +285,8 @@ public class Equation {
                 updateTextView();
             }
             else{
+
+                if(text != null)
                 //No way to add a empty value so just add it by setting text view. The increment of decimalCount will make this functional.
                 text.setText(text.getText() +"0");
             }
@@ -256,14 +294,16 @@ public class Equation {
         else if(equation.get(equation.size()-1).getClass() == Number.class && isDecimal){
             decimalCount = decimalCount +1;
 
-
             if(e.getValue().intValue() != 0){
                 BigDecimal val = decimalGenerator(decimalCount, e.getValue());
                 equation.set(equation.size()-1, new Number(((Number)equation.get(equation.size()-1)).getValue().add( val )));
                 updateTextView();
             }
             else{
+                if(text != null)
                 text.setText(text.getText() +"0");
+
+
             }
 
 
@@ -276,9 +316,23 @@ public class Equation {
 
         }
         else if(equation.get(equation.size()-1).getClass() == StartParenthesis.class){
+
             Equation tmp = ((StartParenthesis)equation.get(equation.size()-1)).getEq();
-            tmp.add(e);
-            ((StartParenthesis)equation.get(equation.size()-1)).setEq(tmp);
+            if(!tmp.isEmpty()) {
+                if (tmp.get(tmp.size() - 1).getClass() != EndParenthesis.class) {
+                    tmp.add(e);
+                    ((StartParenthesis) equation.get(equation.size() - 1)).setEq(tmp);
+                }
+                else{
+                    equation.add(new Operation(EquationPart.MULT));
+                    equation.add(e);
+
+                }
+            }
+            else{
+                tmp.add(e);
+                ((StartParenthesis) equation.get(equation.size() - 1)).setEq(tmp);
+            }
 
         }
 
@@ -298,16 +352,44 @@ public class Equation {
 
     protected boolean add(StartParenthesis e){
 
+        decimalCount = 0;
+        isDecimal = false;
+
         if(equation.isEmpty()){
             equation.add(e);
 
         }
         else {
 
-            if (equation.get(equation.size() - 1).getClass() == SpecialNumber.class || equation.get(equation.size() - 1).getClass() == Number.class || equation.get(equation.size() - 1).getClass() == StartParenthesis.class)
+            if (equation.get(equation.size() - 1).getClass() == SpecialNumber.class || equation.get(equation.size() - 1).getClass() == Number.class) {
                 equation.add(new Operation(EquationPart.MULT));
+                equation.add(e);
+            }
+            else if(equation.get(equation.size()-1).getClass() == StartParenthesis.class){
 
-            equation.add(e);
+                Equation tmp = ((StartParenthesis)equation.get(equation.size()-1)).getEq();
+                if(!tmp.isEmpty()) {
+                    if (tmp.get(tmp.size() - 1).getClass() != EndParenthesis.class) {
+                        tmp.add(e);
+                        ((StartParenthesis) equation.get(equation.size() - 1)).setEq(tmp);
+                    }
+                    else{
+                        equation.add(new Operation(EquationPart.MULT));
+                        equation.add(e);
+
+                    }
+                }
+                else{
+                    tmp.add(e);
+                    ((StartParenthesis) equation.get(equation.size() - 1)).setEq(tmp);
+                }
+
+            }
+            else{
+                equation.add(e);
+            }
+
+
 
             updateTextView();
 
@@ -326,9 +408,15 @@ public class Equation {
      */
     protected boolean add(EndParenthesis e){
 
+        decimalCount = 0;
+        isDecimal = false;
+
         if(!(equation.isEmpty())){
 
+            Log.d("test", equation.get(equation.size()-1).getClass().getSimpleName() + " Full EQ: " + equation.toString());
             if(equation.get(equation.size()-1).getClass() == StartParenthesis.class){
+
+                Log.d("test", equation.get(equation.size()-1).getClass().getSimpleName() + " Inner EQ: " + ((StartParenthesis)equation.get(equation.size()-1)).getEq());
 
                 if(!((StartParenthesis)equation.get(equation.size()-1)).hasEndParen() && !((StartParenthesis)equation.get(equation.size()-1)).getEq().isEmpty())
                 ((StartParenthesis)equation.get(equation.size()-1)).addToParen(e);
@@ -339,11 +427,6 @@ public class Equation {
         return false;
     }
 
-    protected ArrayList<EquationPart> insert(Equation x, EquationPart e){
-        ArrayList<EquationPart> tmp = x.getEquation();
-        tmp.add(e);
-        return tmp;
-    }
 
     protected boolean add(NumberOperation e){
 
@@ -352,12 +435,28 @@ public class Equation {
 
     protected boolean add(Operation e){
 
+        decimalCount = 0;
+        isDecimal = false;
+
         if(!(equation.isEmpty())){
 
             if(equation.get(equation.size()-1).getClass() == StartParenthesis.class){
+
                 Equation tmp = ((StartParenthesis)equation.get(equation.size()-1)).getEq();
-                tmp.add(e);
-                ((StartParenthesis)equation.get(equation.size()-1)).setEq(tmp);
+                if(!tmp.isEmpty()) {
+                    if (tmp.get(tmp.size() - 1).getClass() != EndParenthesis.class) {
+                        tmp.add(e);
+                        ((StartParenthesis) equation.get(equation.size() - 1)).setEq(tmp);
+                    }
+                    else{
+                        equation.add(e);
+
+                    }
+                }
+                else{
+                    tmp.add(e);
+                    ((StartParenthesis) equation.get(equation.size() - 1)).setEq(tmp);
+                }
 
             }
 
@@ -372,6 +471,9 @@ public class Equation {
     }
 
     protected boolean add(SpecialNumber e){
+
+        decimalCount = 0;
+        isDecimal = false;
 
         if(equation.isEmpty() || equation.size() == 0){
             equation.add(e);
@@ -392,9 +494,23 @@ public class Equation {
                 updateTextView();
             }
             else if(equation.get(equation.size()-1).getClass() == StartParenthesis.class){
+
                 Equation tmp = ((StartParenthesis)equation.get(equation.size()-1)).getEq();
-                tmp.add(e);
-                ((StartParenthesis)equation.get(equation.size()-1)).setEq(tmp);
+                if(!tmp.isEmpty()) {
+                    if (tmp.get(tmp.size() - 1).getClass() != EndParenthesis.class) {
+                        tmp.add(e);
+                        ((StartParenthesis) equation.get(equation.size() - 1)).setEq(tmp);
+                    }
+                    else{
+                        equation.add(new Operation(EquationPart.MULT));
+                        equation.add(e);
+
+                    }
+                }
+                else{
+                    tmp.add(e);
+                    ((StartParenthesis) equation.get(equation.size() - 1)).setEq(tmp);
+                }
 
             }
 

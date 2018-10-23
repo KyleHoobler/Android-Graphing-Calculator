@@ -205,6 +205,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.add(new SpecialNumber(EquationPart.PI));
+                equation.updateTextView();
             }
         });
 
@@ -212,13 +213,25 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.add(new SpecialNumber(EquationPart.E));
+                equation.updateTextView();
             }
         });
 
         zero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 equation.add(new Number(0.0));
+
+                if(equation.get(equation.size() -1).getClass() == StartParenthesis.class) {
+                    equation.updateTextView();
+
+                    if(((StartParenthesis)equation.get(equation.size()-1)).getEq().getDecimalCount() == 1)
+                    textView.setText(textView.getText() + ".0");
+                    else if(((StartParenthesis)equation.get(equation.size()-1)).getEq().getDecimalCount() > 1){
+                        textView.setText(textView.getText()+"0");
+                    }
+                }
 
             }
         });
@@ -364,7 +377,7 @@ public class Calculator extends AppCompatActivity {
         lParen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.add(new StartParenthesis());
+                equation.add(new StartParenthesis(textView));
                 equation.updateTextView();
             }
         });
