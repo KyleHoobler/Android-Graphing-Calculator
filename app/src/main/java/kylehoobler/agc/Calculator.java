@@ -2,6 +2,7 @@ package kylehoobler.agc;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -9,16 +10,20 @@ import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -29,6 +34,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.text.InputType.TYPE_CLASS_TEXT;
 
 
 public class Calculator extends AppCompatActivity {
@@ -36,6 +42,7 @@ public class Calculator extends AppCompatActivity {
 
     private ArrayList<String> tmp;
     private int layoutID;
+    boolean disabled = false;
 
     private static final int CALCVIEW = 0;
     private static final int GRAPHVIEW = 1;
@@ -44,7 +51,7 @@ public class Calculator extends AppCompatActivity {
     private Equation equation = new Equation();
     private char tmpVar;
 
-    private TextView textView;
+    private EditText text;
 
 
     private void initFormulaPage(){
@@ -52,10 +59,10 @@ public class Calculator extends AppCompatActivity {
 
         layoutID = FORMULAVIEW;
         setContentView(R.layout.activity_equations);
-        Toolbar myToolBar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolBar = findViewById(R.id.my_toolbar);
 
 
-        ListView listView = (ListView)findViewById(R.id.ListView);
+        ListView listView = findViewById(R.id.ListView);
         setSupportActionBar(myToolBar);
 
         tmp = new ArrayList<>();
@@ -69,7 +76,7 @@ public class Calculator extends AppCompatActivity {
 
 
         if(tmp == null || tmp.isEmpty()) {
-            TextView emptyText = (TextView) findViewById(R.id.empty);
+            TextView emptyText = findViewById(R.id.empty);
             emptyText.setVisibility(View.VISIBLE);
             listView.setEmptyView(emptyText);
         }
@@ -80,7 +87,7 @@ public class Calculator extends AppCompatActivity {
 
         layoutID = GRAPHVIEW;
         setContentView(R.layout.activity_graph);
-        Toolbar myToolBar = (Toolbar) findViewById(R.id.GraphBar);
+        Toolbar myToolBar = findViewById(R.id.GraphBar);
         setSupportActionBar(myToolBar);
 
 
@@ -95,20 +102,20 @@ public class Calculator extends AppCompatActivity {
         initCalcView();
 
 
-
-
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void initCalcView(){
 
 
-        final ImageButton menuButton = (ImageButton) findViewById(R.id.menuButton);
-        textView = (TextView) findViewById(R.id.DisplayNum);
-        equation = new Equation(textView);
-        textView.setMovementMethod(new ScrollingMovementMethod());
-        textView.setHorizontallyScrolling(true);
+        final ImageButton menuButton = findViewById(R.id.menuButton);
+        text = (EditText) findViewById(R.id.DisplayNum);
+
+
+
+        equation = new Equation(text);
+        text.setMovementMethod(new ScrollingMovementMethod());
+        text.setHorizontallyScrolling(true);
 
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,30 +145,30 @@ public class Calculator extends AppCompatActivity {
         });
 
         //Buttons in Scrolling view
-        Button one = (Button)findViewById(R.id.One);
-        Button two = (Button)findViewById(R.id.Two);
-        Button three = (Button)findViewById(R.id.Three);
-        Button four = (Button)findViewById(R.id.Four);
-        Button five = (Button)findViewById(R.id.Five);
-        Button six = (Button)findViewById(R.id.Six);
-        Button seven = (Button)findViewById(R.id.Seven);
-        Button eight = (Button)findViewById(R.id.Eight);
-        Button nine = (Button)findViewById(R.id.Nine);
-        Button zero = (Button)findViewById(R.id.Zero);
-        Button negate = (Button)findViewById(R.id.negate);
-        Button decimal = (Button)findViewById(R.id.Decimal);
-        Button sine = (Button)findViewById(R.id.Sine);
-        Button cosine = (Button)findViewById(R.id.cosine);
-        Button tangent = (Button)findViewById(R.id.tangent);
-        Button ln = (Button)findViewById(R.id.NaturalLog);
-        Button log = (Button)findViewById(R.id.Log);
-        Button factorial = (Button)findViewById(R.id.factorial);
-        Button pi = (Button)findViewById(R.id.PI);
-        Button E = (Button)findViewById(R.id.E);
-        Button power = (Button)findViewById(R.id.Power);
-        Button rParen = (Button)findViewById(R.id.RightParen);
-        Button lParen = (Button)findViewById(R.id.LeftParen);
-        Button sqrt = (Button)findViewById(R.id.SquareRoot);
+        Button one = findViewById(R.id.One);
+        Button two = findViewById(R.id.Two);
+        Button three = findViewById(R.id.Three);
+        Button four = findViewById(R.id.Four);
+        Button five = findViewById(R.id.Five);
+        Button six = findViewById(R.id.Six);
+        Button seven = findViewById(R.id.Seven);
+        Button eight = findViewById(R.id.Eight);
+        Button nine = findViewById(R.id.Nine);
+        Button zero = findViewById(R.id.Zero);
+        Button negate = findViewById(R.id.negate);
+        Button decimal = findViewById(R.id.Decimal);
+        Button sine = findViewById(R.id.Sine);
+        Button cosine = findViewById(R.id.cosine);
+        Button tangent = findViewById(R.id.tangent);
+        Button ln = findViewById(R.id.NaturalLog);
+        Button log = findViewById(R.id.Log);
+        Button factorial = findViewById(R.id.factorial);
+        Button pi = findViewById(R.id.PI);
+        Button E = findViewById(R.id.E);
+        Button power = findViewById(R.id.Power);
+        Button rParen = findViewById(R.id.RightParen);
+        Button lParen = findViewById(R.id.LeftParen);
+        Button sqrt = findViewById(R.id.SquareRoot);
 
         Button [] base = {one, two, three, four, five, six, seven, eight, nine, zero, negate, decimal, sine, cosine, tangent, ln, log, factorial, pi, E, power, rParen, lParen, sqrt};
 
@@ -173,24 +180,23 @@ public class Calculator extends AppCompatActivity {
 
         for (Button x : base){
 
-            x.getLayoutParams().width = (int)(outMetrics.widthPixels / 4);
+            x.getLayoutParams().width = outMetrics.widthPixels / 4;
 
 
         }
 
         //Top Bar Buttons
-        Button clear = (Button)findViewById(R.id.Clear);
-        Button clearAll = (Button)findViewById(R.id.ClearEvery);
-        Button delete = (Button)findViewById(R.id.Back);
+        Button clear = findViewById(R.id.Clear);
+        Button delete = findViewById(R.id.Back);
 
         //Operators Buttons
-        Button divide = (Button)findViewById(R.id.Divide);
-        Button multiply = (Button)findViewById(R.id.Multiply);
-        Button subtract = (Button)findViewById(R.id.Subtract);
-        Button add = (Button)findViewById(R.id.Add);
+        Button divide = findViewById(R.id.Divide);
+        Button multiply = findViewById(R.id.Multiply);
+        Button subtract = findViewById(R.id.Subtract);
+        Button addItem = findViewById(R.id.Add);
 
         //Equals
-        Button equals = (Button)findViewById(R.id.equals);
+        final Button equals = findViewById(R.id.equals);
 
 
         clear.setOnClickListener(new View.OnClickListener() {
@@ -204,16 +210,18 @@ public class Calculator extends AppCompatActivity {
         pi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.add(new SpecialNumber(EquationPart.PI));
+                equation.addItem(new SpecialNumber(EquationPart.PI));
                 equation.updateTextView();
+                text.setSelection(text.getText().length());
             }
         });
 
         E.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.add(new SpecialNumber(EquationPart.E));
+                equation.addItem(new SpecialNumber(EquationPart.E));
                 equation.updateTextView();
+                text.setSelection(text.getText().length());
             }
         });
 
@@ -221,17 +229,10 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                equation.add(new Number(0.0));
+                equation.addItem(new Number(0.0));
+                equation.updateTextView();
+                text.setSelection(text.getText().length());
 
-                if(equation.get(equation.size() -1).getClass() == StartParenthesis.class) {
-                    equation.updateTextView();
-
-                    if(((StartParenthesis)equation.get(equation.size()-1)).getEq().getDecimalCount() == 1)
-                    textView.setText(textView.getText() + ".0");
-                    else if(((StartParenthesis)equation.get(equation.size()-1)).getEq().getDecimalCount() > 1){
-                        textView.setText(textView.getText()+"0");
-                    }
-                }
 
             }
         });
@@ -239,89 +240,100 @@ public class Calculator extends AppCompatActivity {
         one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.add(new Number(1.0));
+                equation.addItem(new Number(1.0));
                 equation.updateTextView();
+                text.setSelection(text.getText().length());
             }
         });
 
         two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.add(new Number(2.0));
+                equation.addItem(new Number(2.0));
                 equation.updateTextView();
+                text.setSelection(text.getText().length());
             }
         });
 
         three.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.add(new Number(3.0));
+                equation.addItem(new Number(3.0));
                 equation.updateTextView();
+                text.setSelection(text.getText().length());
             }
         });
 
         four.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.add(new Number(4.0));
+                equation.addItem(new Number(4.0));
                 equation.updateTextView();
+                text.setSelection(text.getText().length());
             }
         });
 
         five.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.add(new Number(5.0));
+                equation.addItem(new Number(5.0));
                 equation.updateTextView();
+                text.setSelection(text.getText().length());
             }
         });
 
         six.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.add(new Number(6.0));
+                equation.addItem(new Number(6.0));
                 equation.updateTextView();
+                text.setSelection(text.getText().length());
             }
         });
 
         seven.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.add(new Number(7.0));
+                equation.addItem(new Number(7.0));
                 equation.updateTextView();
+                text.setSelection(text.getText().length());
             }
         });
 
         eight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.add(new Number(8.0));
+                equation.addItem(new Number(8.0));
                 equation.updateTextView();
+                text.setSelection(text.getText().length());
             }
         });
 
         nine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.add(new Number(9.0));
+                equation.addItem(new Number(9.0));
                 equation.updateTextView();
+                text.setSelection(text.getText().length());
             }
         });
 
         decimal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.add(new Decimal());
+                equation.addItem(new Decimal());
                 equation.updateTextView();
+                text.setSelection(text.getText().length());
             }
         });
 
-        add.setOnClickListener(new View.OnClickListener() {
+        addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(equation != null || !equation.isEmpty()) {
-                    equation.add(new Operation(EquationPart.ADD));
+                    equation.addItem(new Operation(EquationPart.ADD));
                     equation.updateTextView();
+                    text.setSelection(text.getText().length());
                 }
             }
         });
@@ -330,8 +342,9 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(equation != null || !equation.isEmpty()) {
-                    equation.add(new Operation(EquationPart.MULT));
+                    equation.addItem(new Operation(EquationPart.MULT));
                     equation.updateTextView();
+                    text.setSelection(text.getText().length());
                 }
             }
         });
@@ -340,8 +353,9 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(equation != null || !equation.isEmpty()) {
-                    equation.add(new Operation(EquationPart.DIV));
+                    equation.addItem(new Operation(EquationPart.DIV));
                     equation.updateTextView();
+                    text.setSelection(text.getText().length());
                 }
 
             }
@@ -351,8 +365,9 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(equation != null || !equation.isEmpty()) {
-                    equation.add(new Operation(EquationPart.SUB));
+                    equation.addItem(new Operation(EquationPart.SUB));
                     equation.updateTextView();
+                    text.setSelection(text.getText().length());
                 }
             }
         });
@@ -361,8 +376,9 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(equation != null || !equation.isEmpty()) {
-                    equation.add(new Operation(EquationPart.POW));
+                    equation.addItem(new Operation(EquationPart.POW));
                     equation.updateTextView();
+                    text.setSelection(text.getText().length());
                 }
             }
         });
@@ -371,33 +387,118 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.solve();
+                equation.updateTextView();
+                text.setSelection(text.getText().length());
             }
         });
 
         lParen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.add(new StartParenthesis(textView));
+                equation.addItem(new StartParenthesis());
                 equation.updateTextView();
+                text.setSelection(text.getText().length());
             }
         });
 
         rParen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.add(new EndParenthesis());
+                equation.addItem(new EndParenthesis());
                 equation.updateTextView();
+                text.setSelection(text.getText().length());
             }
         });
 
+        sine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                equation.addItem(new NumberOperation(EquationPart.SIN));
+                equation.updateTextView();
+                text.setSelection(text.getText().length());
+            }
+        });
+
+        cosine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                equation.addItem(new NumberOperation(EquationPart.COS));
+                equation.updateTextView();
+                text.setSelection(text.getText().length());
+            }
+        });
+
+        tangent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                equation.addItem(new NumberOperation(EquationPart.TAN));
+                equation.updateTextView();
+                text.setSelection(text.getText().length());
+            }
+        });
+
+        log.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                equation.addItem(new NumberOperation(EquationPart.LOG));
+                equation.updateTextView();
+                text.setSelection(text.getText().length());
+            }
+        });
+
+        ln.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                equation.addItem(new NumberOperation(EquationPart.LN));
+                equation.updateTextView();
+                text.setSelection(text.getText().length());
+            }
+        });
+
+        sqrt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                equation.addItem(new NumberOperation(EquationPart.SQRT));
+                equation.updateTextView();
+                text.setSelection(text.getText().length());
+            }
+        });
+
+        negate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                equation.addItem(new NumberOperation(EquationPart.NEG));
+                equation.updateTextView();
+                text.setSelection(text.getText().length());
+            }
+        });
+
+        factorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                equation.addItem(new FactorialOperation());
+                equation.updateTextView();
+                text.setSelection(text.getText().length());
+            }
+        });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!equation.isEmpty()) {
+                    equation.deleteItem();
+                    equation.updateTextView();
+                    equation.setIsDecimal(false);
+                    equation.setDecimalCount(0);
+                    text.setSelection(text.getText().length());
+                }
+            }
+        });
 
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void solveEquation(){
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -441,67 +542,25 @@ public class Calculator extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         initCalculator();
+
+            if(savedInstanceState != null){
+                equation.setEquation((ArrayList)savedInstanceState.get("eq"));
+                equation.updateTextView();
+            }
 
     }
 
     @Override
-    public void onDestroy() {
-
-
-
-        super.onDestroy();
-
+    protected void onSaveInstanceState(Bundle outState) {
+        // Make sure to call the super method so that the states of our views are saved
+        super.onSaveInstanceState(outState);
+        // Save our own state now
+        outState.putSerializable("eq", equation.getEquation());
     }
 
 
-    public void testList(){
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
-        tmp.add("test");
 
-
-    }
 
     public void makeToast(String text){
         Toast.makeText(this.getBaseContext(),text, Toast.LENGTH_SHORT).show();

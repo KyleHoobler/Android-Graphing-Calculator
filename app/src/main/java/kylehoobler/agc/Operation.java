@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 public class Operation extends EquationPart {
 
     private String operation;
-    private int decimalLength;
+
 
 
     protected Operation(String op){
@@ -16,7 +16,7 @@ public class Operation extends EquationPart {
         operationPriority();
 
         //Default value
-        decimalLength = 10;
+
 
         switch (this.operation) {
             case SUB:
@@ -90,12 +90,12 @@ public class Operation extends EquationPart {
             case ADD:
                 return new Number(x.getValue().add(y.getValue()));
             case DIV:
-                return new Number(x.getValue().divide(y.getValue(), decimalLength, RoundingMode.HALF_UP));
+                return new Number(x.getValue().divide(y.getValue(), decimalLength, RoundingMode.HALF_UP).stripTrailingZeros());
             case MULT:
-                return new Number(x.getValue().multiply(y.getValue()).divide(new BigDecimal(1), decimalLength, RoundingMode.HALF_UP));
+                return new Number(x.getValue().multiply(y.getValue()).divide(new BigDecimal(1), decimalLength, RoundingMode.HALF_UP).stripTrailingZeros());
             case POW:
                 //Loss of precision but oh well
-                return new Number(new BigDecimal(Math.pow(x.getValue().doubleValue(), y.getValue().doubleValue())).divide(new BigDecimal(1), decimalLength, RoundingMode.HALF_UP));
+                return new Number(new BigDecimal(Math.pow(x.getValue().doubleValue(), y.getValue().doubleValue())).divide(new BigDecimal(1), decimalLength, RoundingMode.HALF_UP).stripTrailingZeros());
         }
         return null;
 

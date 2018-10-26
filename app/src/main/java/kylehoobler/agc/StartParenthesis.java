@@ -13,9 +13,9 @@ public class StartParenthesis extends EquationPart {
     private TextView text;
 
 
-    protected StartParenthesis(TextView text){
+    protected StartParenthesis(){
 
-        this.text = text;
+
         eq = new Equation();
         this.setPriority(7);
     }
@@ -24,9 +24,6 @@ public class StartParenthesis extends EquationPart {
         return eq;
     }
 
-    protected void setTextViewText(String te){
-        text.setText(te);
-    }
 
     protected void setEq(Equation e){
         eq = e;
@@ -49,28 +46,35 @@ public class StartParenthesis extends EquationPart {
                 tmp += eq.get(i).getDisplayItem();
             }
 
-
-
             if(eq.get(i).getClass() == Number.class) {
-
-
-
 
                 tmp += ((Number) eq.get(i)).getValue();
                 if(eq.getDecimalCount() > 0){
                     if(((Number)eq.get(i)).getValue().doubleValue() == ((Number)eq.get(i)).getValue().intValue()){
                         //tmp += ".0";
                     }
-
                 }
+            }
+        }
+        return tmp;
+    }
 
+    protected StartParenthesis addToInnerMost(EquationPart e) throws Exception{
+
+        if(!this.getEq().isEmpty()) {
+            if (this.getEq().get(this.getEq().size() - 1).getClass() == StartParenthesis.class) {
+
+                ((StartParenthesis) this.getEq().get(this.getEq().size() - 1)).addToInnerMost(e);
             }
 
+            if(this.getEq().getEquation().get(this.getEq().size()-1).getClass() != EndParenthesis.class) {
+                    this.getEq().getEquation().add(e);
+                throw new Exception();
+            }
 
         }
 
-
-        return tmp;
+        return this;
     }
 
 
@@ -84,7 +88,14 @@ public class StartParenthesis extends EquationPart {
     }
 
     protected Number ParenSolve(){
-        eq.solve();
+        if(!this.getEq().isEmpty()){
+            if(!(this.getEq().size() == 1 && this.getEq().get(0).getClass() == EndParenthesis.class))
+                eq.solve();
+            else{
+                return new Number(0.0);
+            }
+        }
+
 
         if(!eq.isEmpty())
             return (Number)eq.get(0);

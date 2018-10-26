@@ -16,6 +16,7 @@ public class EquationPart {
 
     private int priority;
     private String displayItem;
+    protected int decimalLength;
 
     //Constants
     protected static final String ADD = "Add";
@@ -37,19 +38,20 @@ public class EquationPart {
     protected static final String dispSub = "-";
     protected static final String dispTimes = "*";
     protected static final String dispDiv = "/";
-    protected static final String dispSin = "sin(";
-    protected static final String dispCos = "cos(";
-    protected static final String dispTan = "tan(";
-    protected static final String dispLog = "log(";
-    protected static final String dispLn = "ln(";
+    protected static final String dispSin = "sin";
+    protected static final String dispCos = "cos";
+    protected static final String dispTan = "tan";
+    protected static final String dispLog = "log";
+    protected static final String dispLn = "ln";
     protected static final String dispPow = "^";
     protected static final String dispFac = "!";
     protected static final String dispPi = "π";
-    protected static final String dispSQRT = "sqrt(";
+    protected static final String dispSQRT = "√";
 
 
     protected EquationPart(){
 
+        decimalLength = 10;
         displayItem = "";
         //default priority of 0
         priority = 0;

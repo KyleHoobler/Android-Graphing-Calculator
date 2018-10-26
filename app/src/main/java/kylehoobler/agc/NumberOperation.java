@@ -35,9 +35,6 @@ public class NumberOperation extends EquationPart {
             case SQRT:
                 this.setDisplayItem(dispSQRT);
                 break;
-            case FAC:
-                this.setDisplayItem(dispFac);
-                break;
             case LOG:
                 this.setDisplayItem(dispLog);
                 break;
@@ -54,49 +51,36 @@ public class NumberOperation extends EquationPart {
     }
 
 
-    protected BigDecimal factorial(BigDecimal value){
-
-        if(value.intValue() > 0)
-            return value.multiply( factorial(value.subtract(new BigDecimal(1))));
-        else
-            return new BigDecimal(1);
-    }
-
-    protected Number numOpSolve() {
+    protected Number numOpSolve(Number tmp) {
 
         try {
-            Number tmp = new Number();
             switch (this.getOperation()) {
 
                 case NEG:
                     tmp = new Number(tmp.getValue().multiply(new BigDecimal(-1)));
                     break;
                 case SIN:
-                    tmp = new Number(Math.sin(tmp.getValue().doubleValue()));
+                    tmp = new Number(new BigDecimal(Math.sin(tmp.getValue().doubleValue())).setScale(decimalLength, BigDecimal.ROUND_DOWN).stripTrailingZeros());
                     break;
                 case COS:
-                    tmp = new Number(Math.cos(tmp.getValue().doubleValue()));
+                    tmp = new Number(new BigDecimal(Math.cos(tmp.getValue().doubleValue())).setScale(decimalLength, BigDecimal.ROUND_DOWN).stripTrailingZeros());
                     break;
                 case TAN:
-                    tmp = new Number(Math.tan(tmp.getValue().doubleValue()));
+                    tmp = new Number(new BigDecimal(Math.tan(tmp.getValue().doubleValue())).setScale(decimalLength, BigDecimal.ROUND_DOWN).stripTrailingZeros());
                     break;
                 case SQRT:
-                    tmp = new Number(Math.sqrt(tmp.getValue().doubleValue()));
-                    break;
-                case FAC:
-                    tmp = new Number(factorial(tmp.getValue()));
+                    tmp = new Number(new BigDecimal(Math.sqrt(tmp.getValue().doubleValue())).setScale(decimalLength, BigDecimal.ROUND_DOWN).stripTrailingZeros());
                     break;
                 case LOG:
-                    tmp = new Number(Math.log10(tmp.getValue().doubleValue()));
+                    tmp = new Number(new BigDecimal(Math.log10(tmp.getValue().doubleValue())).setScale(decimalLength, BigDecimal.ROUND_DOWN).stripTrailingZeros());
                     break;
                 case LN:
-                    tmp = new Number(Math.log(tmp.getValue().doubleValue()));
+                    tmp = new Number(new BigDecimal(Math.log(tmp.getValue().doubleValue())).setScale(decimalLength, BigDecimal.ROUND_DOWN).stripTrailingZeros());
                     break;
                 default:
                     return null;
             }
 
-            this.subtractPriority(6);
 
             return tmp;
         }
