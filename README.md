@@ -1,4 +1,4 @@
-#Android-Graphing-Calculator
+Android-Graphing-Calculator
 This is a WIP android graphing calculator that was developed for my CPSC 498 class.
 
 This project will perform the following:
