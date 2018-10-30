@@ -1,6 +1,5 @@
 package kylehoobler.agc;
 
-
 import java.math.BigDecimal;
 
 public class Number extends EquationPart {

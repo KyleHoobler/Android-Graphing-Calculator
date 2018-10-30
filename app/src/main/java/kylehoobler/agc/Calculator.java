@@ -1,16 +1,13 @@
 package kylehoobler.agc;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -18,23 +15,17 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 
-import static android.text.InputType.TYPE_CLASS_TEXT;
 
 
 public class Calculator extends AppCompatActivity {
@@ -43,14 +34,11 @@ public class Calculator extends AppCompatActivity {
     private ArrayList<String> tmp;
     private int layoutID;
     boolean disabled = false;
-
     private static final int CALCVIEW = 0;
     private static final int GRAPHVIEW = 1;
     private static final int FORMULAVIEW = 2;
-
     private Equation equation = new Equation();
     private char tmpVar;
-
     private EditText text;
 
 
@@ -89,8 +77,7 @@ public class Calculator extends AppCompatActivity {
         setContentView(R.layout.activity_graph);
         Toolbar myToolBar = findViewById(R.id.GraphBar);
         setSupportActionBar(myToolBar);
-
-
+        
     }
 
 
@@ -228,11 +215,9 @@ public class Calculator extends AppCompatActivity {
         zero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 equation.addItem(new Number(0.0));
                 equation.updateTextView();
                 text.setSelection(text.getText().length());
-
 
             }
         });
@@ -494,7 +479,6 @@ public class Calculator extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -565,14 +549,5 @@ public class Calculator extends AppCompatActivity {
     public void makeToast(String text){
         Toast.makeText(this.getBaseContext(),text, Toast.LENGTH_SHORT).show();
     }
-
-
-
-
-
-
-
-
-
 
 }

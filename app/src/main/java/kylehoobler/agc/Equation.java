@@ -2,7 +2,6 @@ package kylehoobler.agc;
 
 import android.support.annotation.NonNull;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.util.Pair;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,9 +10,9 @@ import java.util.ArrayList;
 
 
 /**
- * This class holds the full equation
+ * This class holds the full equation, and methods used to solve for the equation result
  */
-public class Equation extends EquationPart{
+class Equation extends EquationPart{
 
     private ArrayList<EquationPart> equation;
     private TextView text;
@@ -21,9 +20,7 @@ public class Equation extends EquationPart{
     private boolean isDecimal;
 
 
-
     Equation(){
-
 
         isDecimal = false;
         this.decimalCount = 0;
@@ -57,10 +54,6 @@ public class Equation extends EquationPart{
         equation = e;
     }
 
-    protected int getDecimalCount(){
-        return this.decimalCount;
-    }
-
     protected void setDecimalCount(int i){
          decimalCount = i;
     }
@@ -81,8 +74,6 @@ public class Equation extends EquationPart{
         return equation.size();
     }
 
-
-
     protected void clearEQ(){
         isDecimal = false;
         this.decimalCount = 0;
@@ -96,10 +87,10 @@ public class Equation extends EquationPart{
 
     /**
      * Gets the max priority and the position of that value
-     * @return
+     * @return pair of highest priority and its value
      */
     @NonNull
-    private Pair<Integer, Integer> getMaxPriority(){
+    private Pair getMaxPriority(){
 
         int maxPriority = 0;
         int position = 0;
@@ -114,6 +105,10 @@ public class Equation extends EquationPart{
         return new Pair(maxPriority, position);
     }
 
+
+    /**
+     * Logic behind the calculator, this will solve the equation.
+     */
     protected void solve(){
 
     try {
@@ -127,7 +122,7 @@ public class Equation extends EquationPart{
 
 
                 Pair<Integer, Integer> tmp = getMaxPriority();
-                Log.d("test2", equation.toString() + " " + tmp.second);
+                //Log.d("test2", equation.toString() + " " + tmp.second);
 
 
                 if (equation.get(tmp.second).getClass() == Operation.class) {
@@ -165,9 +160,15 @@ public class Equation extends EquationPart{
                     equation.set(tmp.second, ((StartParenthesis) equation.get(tmp.second)).ParenSolve());
                 }
                 else if(equation.get(tmp.second).getClass() == FactorialOperation.class){
-
-                    equation.set(tmp.second.intValue()-1, ((FactorialOperation)equation.get(tmp.second.intValue())).getFactorial((Number)equation.get(tmp.second.intValue()-1)));
-                    equation.remove(tmp.second.intValue());
+                    try {
+                        equation.set(tmp.second - 1, ((FactorialOperation) equation.get(tmp.second)).getFactorial((Number) equation.get(tmp.second - 1)));
+                        equation.remove(tmp.second.intValue());
+                    }
+                    catch(NumberFormatException e){
+                        this.clearEQ();
+                        text.setText("An Error has occurred");
+                        break;
+                    }
                 }
                 else if(equation.get(tmp.second.intValue()).getClass() == Decimal.class){
                     equation.remove(tmp.second.intValue());
@@ -184,7 +185,7 @@ public class Equation extends EquationPart{
 
     /**
      * Handles the adding of items to the equation. Takes recursion into account and will add to a start parenthesis if it does not have an end parenthesis
-     * @param e
+     * @param e item to be added
      */
     protected void addItem(EquationPart e){
 
@@ -327,9 +328,7 @@ public class Equation extends EquationPart{
                               ((StartParenthesis) equation.get(equation.size() - 1)).getEq().addItem(e);
                           }
 
-
                       }
-
                       else if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class){
                           equation.add(e);
                       }
@@ -341,7 +340,6 @@ public class Equation extends EquationPart{
                } else if (e.getClass() == NumberOperation.class) {
                    isDecimal = false;
                    decimalCount = 0;
-                   NumberOperation val = (NumberOperation)e;
 
                   if(!equation.isEmpty()) {
                       if(equation.get(equation.size()-1).getClass() == StartParenthesis.class){
@@ -354,22 +352,17 @@ public class Equation extends EquationPart{
                           else {
                               ((StartParenthesis) equation.get(equation.size() - 1)).getEq().addItem(e);
                           }
-
                       }
-
                       else if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class){
                           equation.add(new Operation(MULT));
                           equation.add(e);
                           equation.add(new StartParenthesis());
                       }
                       else if(equation.get(equation.size()-1).getClass() == Operation.class ){
-
                           equation.add(e);
                           equation.add(new StartParenthesis());
                       }
-
                   }
-
                }
 
               ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -377,7 +370,6 @@ public class Equation extends EquationPart{
                else if (e.getClass() == StartParenthesis.class) {
                    isDecimal = false;
                    decimalCount = 0;
-                   StartParenthesis val = (StartParenthesis)e;
 
                    if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class){
                        equation.add(new Operation(MULT));
@@ -389,15 +381,12 @@ public class Equation extends EquationPart{
                   else if(equation.get(equation.size()-1).getClass() == StartParenthesis.class){
 
                       if(((StartParenthesis)equation.get(equation.size()-1)).hasEndParen()){
-
                           equation.add(e);
                       }
                       else {
                           ((StartParenthesis) equation.get(equation.size() - 1)).getEq().addItem(e);
                       }
-
                   }
-
                }
 
               ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -405,7 +394,6 @@ public class Equation extends EquationPart{
                else if (e.getClass() == EndParenthesis.class) {
                    isDecimal = false;
                    decimalCount = 0;
-                   EndParenthesis val = (EndParenthesis)e;
 
                   //Parenthesis Check
                   if(equation.get(equation.size()-1).getClass() == StartParenthesis.class){
@@ -422,7 +410,6 @@ public class Equation extends EquationPart{
                else if (e.getClass() == FactorialOperation.class) {
                   isDecimal = false;
                   decimalCount = 0;
-                  FactorialOperation val = (FactorialOperation) e;
 
                   if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class){
                       equation.add(e);
@@ -454,27 +441,38 @@ public class Equation extends EquationPart{
        }
     }
 
+    /**
+     * Delete item method
+     */
     protected void deleteItem(){
         if(equation.get(equation.size()-1).getClass() == StartParenthesis.class){
 
             if(!((StartParenthesis)equation.get(equation.size()-1)).getEq().isEmpty())
-            ((StartParenthesis)equation.get(equation.size()-1)).getEq().deleteItem();
+                ((StartParenthesis)equation.get(equation.size()-1)).getEq().deleteItem();
+
             else{
                 equation.remove(equation.size()-1);
+
+                if(!equation.isEmpty()){
+                    if(equation.get(equation.size()-1).getClass() == NumberOperation.class){
+                        equation.remove(equation.size()-1);
+                    }
+                }
             }
         }
         else{
             equation.remove(equation.size()-1);
         }
 
-
     }
 
 
+    /**
+     * Used to update a textview that is associated with the equation.
+     */
     protected void updateTextView(){
 
         if(text != null) {
-
 
             text.setText("");
             for (int i = 0; i < equation.size(); i++) {
@@ -520,7 +518,13 @@ public class Equation extends EquationPart{
         }
 
 
-    public BigDecimal decimalGenerator(int count, BigDecimal e){
+    /**
+     * Used to generate the next decimal value.
+     * @param count Number of times needed to iterate
+     * @param e The number to be moved downward
+     * @return the decimal value
+     */
+    private BigDecimal decimalGenerator(int count, BigDecimal e){
 
         for(int i = 0; i < count; i++){
             e = e .divide(new BigDecimal(10));
@@ -528,9 +532,5 @@ public class Equation extends EquationPart{
 
         return e;
     }
-
-
-
-
 
 }

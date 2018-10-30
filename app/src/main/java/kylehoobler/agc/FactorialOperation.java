@@ -16,12 +16,16 @@ class FactorialOperation extends EquationPart {
         this.setPriority(6);
     }
 
-    protected BigDecimal factorial(BigDecimal value){
 
-        if(value.intValue() > 0)
-            return value.multiply( factorial(value.subtract(new BigDecimal(1))));
-        else
-            return new BigDecimal(1);
+    protected BigDecimal factorial(BigDecimal value) throws NumberFormatException{
+
+
+            if (value.intValue() > 0)
+                return value.multiply(factorial(value.subtract(new BigDecimal(1))));
+            else
+                return new BigDecimal(1);
+
+
     }
 
     protected Number getFactorial(Number x){

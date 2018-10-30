@@ -12,7 +12,7 @@ import android.widget.TextView;
  * CPSC 498
  *
  */
-public class EquationPart {
+class EquationPart {
 
     private int priority;
     private String displayItem;
@@ -67,16 +67,16 @@ public class EquationPart {
     }
 
 
-    public void setPriority(int val){
+    protected void setPriority(int val){
 
         priority = (val < 0) ? 0 : val;
     }
 
-    public int getPriority(){
+    protected int getPriority(){
         return priority;
     }
 
-    public boolean addPriority(int i){
+    protected boolean addPriority(int i){
 
         //Check if value is negative for case use subtractPriority
         if(i > 0) {
@@ -86,7 +86,7 @@ public class EquationPart {
         return false;
     }
 
-    public boolean subtractPriority(int i){
+    protected boolean subtractPriority(int i){
 
         if(this.getPriority() - i < 0){
             this.setPriority(0);
