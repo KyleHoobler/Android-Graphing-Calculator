@@ -31,7 +31,7 @@
     <string name="log">LOG(</string>
     <string name="tan">TAN(</string>
     <string name="negate">±</string>
-    <string name="Divide">÷</string>
+    <string name="Divide">/</string>
     <string name="del">Del</string>
     <string name="todo">TODO</string>
     <string name="e">e</string>

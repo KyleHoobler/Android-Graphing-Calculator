@@ -1,7 +1,7 @@
 package kylehoobler.agc;
 
 
-public class StartParenthesis extends EquationPart {
+public class StartParenthesis extends EquationPart implements java.io.Serializable{
 
     private Equation eq;
 

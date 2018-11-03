@@ -6,7 +6,7 @@ import java.math.BigDecimal;
  * Special class needed because factorial operates in a different way than most number operations. Number operations appear before the number that they are evaluating where factorial appears after but
  * operates in the same way.
  */
-class FactorialOperation extends EquationPart {
+class FactorialOperation extends EquationPart implements java.io.Serializable{
 
     protected Number num1;
 

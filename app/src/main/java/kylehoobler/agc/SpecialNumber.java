@@ -3,7 +3,7 @@ package kylehoobler.agc;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class SpecialNumber extends Number {
+public class SpecialNumber extends Number implements java.io.Serializable{
 
     protected String opcode;
     protected int decimalLength;

@@ -1,114 +1,37 @@
 package kylehoobler.agc;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.Display;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.PopupMenu;
-import android.widget.Toast;
-import java.util.ArrayList;
 
 
+public class FormulaViewCalculator extends AppCompatActivity {
 
-public class Calculator extends AppCompatActivity {
+    Equation equation = null;
+    EditText text;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-
-    private int layoutID;
-    boolean disabled = false;
-    private static final int CALCVIEW = 0;
-    private static final int GRAPHVIEW = 1;
-    private static final int FORMULAVIEW = 2;
-    private Equation equation = new Equation();
-    private char tmpVar;
-    private EditText text;
-
-
-    private void initFormulaPage(){
-
-        Intent intent = new Intent(this, FormulaView.class);
-
-        startActivity(intent);
-        layoutID = FORMULAVIEW;
-
-
-    }
-
-    private void initGraphPage(){
-
-        layoutID = GRAPHVIEW;
-        Intent gr = new Intent(this, GraphView.class);
-        this.startActivity(gr);
-
-    }
-
-
-    @SuppressLint("NewApi")
-    private void initCalculator(){
-        setContentView(R.layout.activity_calculator);
-        layoutID = CALCVIEW;
-
-        initCalcView();
-
-
-    }
-
-    @SuppressLint("NewApi")
-    protected void launchAlternativeCalc(){
-        setContentView(R.layout.activity_formula_calculator);
-
-        initCalcView();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void initCalcView(){
-
-
-        final ImageButton menuButton = findViewById(R.id.menuButton);
-        text = (EditText) findViewById(R.id.DisplayNum);
-
-
-
+        this.setContentView(R.layout.activity_formula_calculator);
+        text = (EditText)findViewById(R.id.DisplayNum);
         equation = new Equation(text);
-        text.setMovementMethod(new ScrollingMovementMethod());
-        text.setHorizontallyScrolling(true);
 
-        menuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(Calculator.this, menuButton);
-
-                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
-
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-
-                        if(item.getTitle().equals("Formulas")){
-                            initFormulaPage();
-                        }
-                        else if(item.getTitle().equals("Graph")){
-                            initGraphPage();
-                        }
-
-                        return false;
-                    }
-                });
+        initCalculator();
 
 
-                popupMenu.show();
-            }
-        });
+
+    }
+
+    private void initCalculator(){
+
+
 
         //Buttons in Scrolling view
         Button one = findViewById(R.id.One);
@@ -136,6 +59,7 @@ public class Calculator extends AppCompatActivity {
         Button lParen = findViewById(R.id.LeftParen);
         Button sqrt = findViewById(R.id.SquareRoot);
 
+
         Button [] base = {one, two, three, four, five, six, seven, eight, nine, zero, negate, decimal, sine, cosine, tangent, ln, log, factorial, pi, E, power, rParen, lParen, sqrt};
 
         //Dims of screen
@@ -151,6 +75,10 @@ public class Calculator extends AppCompatActivity {
 
         }
 
+        //Cancel or save buttons
+        Button cancel = findViewById(R.id.cancel);
+        Button save = findViewById(R.id.Save);
+
         //Top Bar Buttons
         Button clear = findViewById(R.id.Clear);
         Button delete = findViewById(R.id.Back);
@@ -161,8 +89,9 @@ public class Calculator extends AppCompatActivity {
         Button subtract = findViewById(R.id.Subtract);
         Button addItem = findViewById(R.id.addItem);
 
-        //Equals
-        final Button equals = findViewById(R.id.equals);
+        //Variable
+        Button var = findViewById(R.id.variable);
+
 
 
         clear.setOnClickListener(new View.OnClickListener() {
@@ -347,14 +276,6 @@ public class Calculator extends AppCompatActivity {
             }
         });
 
-        equals.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                equation.solve();
-                equation.updateTextView();
-                text.setSelection(text.getText().length());
-            }
-        });
 
         lParen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -437,6 +358,15 @@ public class Calculator extends AppCompatActivity {
             }
         });
 
+        var.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                equation.addItem(new Variable());
+                equation.updateTextView();
+                text.setSelection(text.getText().length());
+            }
+        });
+
         factorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -458,56 +388,32 @@ public class Calculator extends AppCompatActivity {
                 }
             }
         });
-    }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getTitle().toString()) {
-            case "Calculator":
-                initCalculator();
-                return true;
-            case "Graph":
-                initGraphPage();
-                return true;
-            case "Formulas":
-                initFormulaPage();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-
-        @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        initCalculator();
-
-            if(savedInstanceState != null){
-                equation.setEquation((ArrayList)savedInstanceState.get("eq"));
-                equation.updateTextView();
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchFormulaView();
             }
+        });
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO get this to save the item
+
+                //TODO save formula to a json file so that it is accessible for later use
+
+                //TODO gray out save button when unfinished equation is entered
+            }
+        });
 
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        // Make sure to call the super method so that the states of our views are saved
-        super.onSaveInstanceState(outState);
-        // Save our own state now
-        outState.putSerializable("eq", equation.getEquation());
+    private void launchFormulaView(){
+        Intent tmp = new Intent(this, FormulaView.class);
+        this.startActivity(tmp);
+
     }
 
-
-
-
-    public void makeToast(String text){
-        Toast.makeText(this.getBaseContext(),text, Toast.LENGTH_SHORT).show();
-    }
 
 }

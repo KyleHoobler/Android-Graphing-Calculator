@@ -1,6 +1,6 @@
 package kylehoobler.agc;
 
-public class EndParenthesis extends EquationPart {
+public class EndParenthesis extends EquationPart implements java.io.Serializable {
 
 
     protected EndParenthesis(){

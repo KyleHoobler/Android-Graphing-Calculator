@@ -12,13 +12,12 @@ import java.util.ArrayList;
 /**
  * This class holds the full equation, and methods used to solve for the equation result
  */
-class Equation extends EquationPart{
+class Equation extends EquationPart implements java.io.Serializable{
 
     private ArrayList<EquationPart> equation;
     private TextView text;
     private int decimalCount;
     private boolean isDecimal;
-
 
     Equation(){
 
@@ -232,7 +231,7 @@ class Equation extends EquationPart{
                        }
                    }
 
-                   else if(equation.get(equation.size()-1).getClass() == SpecialNumber.class){
+                   else if(equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == Variable.class){
 
                        equation.add(new Operation(MULT));
                        equation.add(e);
@@ -300,7 +299,7 @@ class Equation extends EquationPart{
 
                       }
 
-                      else if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == StartParenthesis.class){
+                      else if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == StartParenthesis.class || equation.get(equation.size()-1).getClass() == Variable.class){
                           equation.add(new Operation(MULT));
                           equation.add(e);
                       }
@@ -329,7 +328,7 @@ class Equation extends EquationPart{
                           }
 
                       }
-                      else if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class){
+                      else if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == Variable.class){
                           equation.add(e);
                       }
 
@@ -353,7 +352,7 @@ class Equation extends EquationPart{
                               ((StartParenthesis) equation.get(equation.size() - 1)).getEq().addItem(e);
                           }
                       }
-                      else if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class){
+                      else if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == Variable.class){
                           equation.add(new Operation(MULT));
                           equation.add(e);
                           equation.add(new StartParenthesis());
@@ -425,9 +424,33 @@ class Equation extends EquationPart{
                       }
                   }
               }
+
+              else if(e.getClass() == Variable.class){
+
+                  if(equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == Variable.class){
+
+                      equation.add(new Operation(MULT));
+                      equation.add(e);
+
+                  }
+                  else if(equation.get(equation.size()-1).getClass() == StartParenthesis.class){
+
+                      if(((StartParenthesis)equation.get(equation.size()-1)).hasEndParen()){
+                          equation.add(new Operation(MULT));
+                          equation.add(e);
+                      }
+                      else {
+                          ((StartParenthesis) equation.get(equation.size() - 1)).getEq().addItem(e);
+                      }
+                  }
+                  else{
+                      equation.add(e);
+                  }
+
+              }
        }
        else{
-           if(e.getClass() == Number.class || e.getClass() == StartParenthesis.class || e.getClass() == SpecialNumber.class){
+           if(e.getClass() == Number.class || e.getClass() == StartParenthesis.class || e.getClass() == SpecialNumber.class || e.getClass() == Variable.class){
                equation.add(e);
            }
            else if(e.getClass() == Decimal.class){

@@ -12,7 +12,7 @@ import android.widget.TextView;
  * CPSC 498
  *
  */
-class EquationPart {
+class EquationPart implements java.io.Serializable{
 
     private int priority;
     private String displayItem;

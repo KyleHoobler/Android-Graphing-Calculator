@@ -35,4 +35,10 @@
         <item name="colorAccent">@color/Gray</item>
     </style>
 
+    <style name="FormulaCalcButtons" parent="Theme.AppCompat.Light">
+        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Borderless</item>
+        <item name="colorControlHighlight">@color/Blue</item>
+        <item name="colorAccent">@color/SkyBlue</item>
+    </style>
+
 </resources>

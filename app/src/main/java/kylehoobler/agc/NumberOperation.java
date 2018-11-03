@@ -6,7 +6,7 @@ import java.math.BigDecimal;
     Operation Class for items that only require one number rather than 2
 
  */
-public class NumberOperation extends EquationPart {
+public class NumberOperation extends EquationPart implements java.io.Serializable{
 
     private String operation;
 

@@ -2,7 +2,7 @@ package kylehoobler.agc;
 
 import java.math.BigDecimal;
 
-public class Number extends EquationPart {
+public class Number extends EquationPart implements java.io.Serializable{
 
     private BigDecimal value;
 

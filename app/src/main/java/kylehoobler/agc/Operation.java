@@ -4,7 +4,7 @@ package kylehoobler.agc;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class Operation extends EquationPart {
+public class Operation extends EquationPart implements java.io.Serializable{
 
     private String operation;
 
