@@ -1,51 +1,92 @@
 package kylehoobler.agc;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
-
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
-public class FormulaView extends AppCompatActivity {
+public class FormulaView extends AppCompatActivity implements Serializable{
 
+    protected final String EQUATIONLIST = "equations";
+
+    protected SharedPreferences sharedPreference;
+
+    private final String EQUATION = "EQ";
     private ArrayList<String> tmp;
+    private ArrayList<Equation>equations;
     private Toolbar myToolBar;
+    private listAdapter adapter;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager layoutManager;
 
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(recyclerView != null && layoutManager != null) {
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
+            recyclerView.addItemDecoration(dividerItemDecoration);
+        }
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        equations = new ArrayList<>();
+
+        sharedPreference = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE);
+        String tmp = sharedPreference.getString(EQUATION, null);
+
+
+
+        if(tmp != null){
+
+        }
+
+
+        //Testing
+        //addALotofItems();
 
         this.setContentView(R.layout.activity_equations);
         myToolBar = findViewById(R.id.my_toolbar);
+        recyclerView = findViewById(R.id.list);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+
+        recyclerView.setLayoutManager(layoutManager);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        adapter = new listAdapter(this, equations);
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.setNestedScrollingEnabled(false);
 
 
-        ListView listView = findViewById(R.id.ListView);
         this.setSupportActionBar(myToolBar);
 
-        tmp = new ArrayList<>();
-
-        ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, tmp);
-        listView.setAdapter(listAdapter);
-
-        listAdapter.notifyDataSetChanged();
-
-
-        if(tmp == null || tmp.isEmpty()) {
+        if(equations == null || equations.isEmpty()) {
             TextView emptyText = findViewById(R.id.empty);
             emptyText.setVisibility(View.VISIBLE);
-            listView.setEmptyView(emptyText);
-        }
 
+        }
 
 
     }
@@ -53,6 +94,25 @@ public class FormulaView extends AppCompatActivity {
     public void launchCalculator(){
         Intent tmp = new Intent(this, FormulaViewCalculator.class);
         this.startActivity(tmp);
+
+
+    }
+
+
+    /**
+     * Test method
+     *
+     * TODO: Remove this
+     */
+    private void addALotofItems(){
+
+        ArrayList x = new ArrayList();
+
+        x.add(new Number(new BigDecimal(1)));
+        for(int i =0; i< 1000; i++) {
+            equations.add(new Equation(x));
+        }
+
 
     }
 

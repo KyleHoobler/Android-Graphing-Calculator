@@ -1,6 +1,7 @@
 package kylehoobler.agc;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -9,14 +10,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+
 
 public class FormulaViewCalculator extends AppCompatActivity {
 
+    private boolean isSaved = false;
+    private final String EQUATION = "EQ";
+    protected final String EQUATIONLIST = "equations";
     Equation equation = null;
     EditText text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         this.setContentView(R.layout.activity_formula_calculator);
@@ -25,8 +32,22 @@ public class FormulaViewCalculator extends AppCompatActivity {
 
         initCalculator();
 
+    }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
 
+        outState.putSerializable(EQUATION, equation.getEquation());
+
+        super.onSaveInstanceState(outState);
+
+    }
+
+    protected void exit() {
+        Intent x = new Intent(this, FormulaView.class);
+        x.putExtra(EQUATION, equation.getEquation());
+
+        startActivity(x);
     }
 
     private void initCalculator(){
@@ -399,11 +420,23 @@ public class FormulaViewCalculator extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO get this to save the item
+                isSaved = true;
 
-                //TODO save formula to a json file so that it is accessible for later use
+                Gson gson = new Gson();
+                String item = gson.toJson(equation.getEquation());
 
-                //TODO gray out save button when unfinished equation is entered
+
+
+                SharedPreferences.Editor editor = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE).edit();
+
+                editor.putString(EQUATION, item);
+
+                editor.apply();
+
+                exit();
+
+
+
             }
         });
 

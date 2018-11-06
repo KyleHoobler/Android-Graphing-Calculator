@@ -575,9 +575,8 @@
     <ImageButton
         android:id="@+id/menuButton"
         style="?android:attr/actionOverflowButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/todo"
+        android:layout_width="48dp"
+        android:layout_height="55dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

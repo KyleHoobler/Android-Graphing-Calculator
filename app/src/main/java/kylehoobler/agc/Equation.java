@@ -5,6 +5,8 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Pair;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 /**
  * This class holds the full equation, and methods used to solve for the equation result
  */
-class Equation extends EquationPart implements java.io.Serializable{
+class Equation extends EquationPart implements Serializable {
 
     private ArrayList<EquationPart> equation;
     private TextView text;
@@ -554,6 +556,16 @@ class Equation extends EquationPart implements java.io.Serializable{
         }
 
         return e;
+    }
+
+    @Override
+    protected String getDisplayItem(){
+        String builder = "";
+
+        for(EquationPart e : equation){
+            builder += e.getDisplayItem();
+        }
+        return builder;
     }
 
 }
