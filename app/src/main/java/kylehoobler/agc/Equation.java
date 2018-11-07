@@ -6,6 +6,8 @@ import android.util.Pair;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,9 +18,13 @@ import java.util.ArrayList;
  */
 class Equation extends EquationPart implements Serializable {
 
+    @SerializedName("equation")
     private ArrayList<EquationPart> equation;
-    private TextView text;
-    private int decimalCount;
+
+    @SerializedName("decCount")
+    protected int decimalCount;
+
+    @SerializedName("isDecimal")
     private boolean isDecimal;
 
     Equation(){
@@ -29,14 +35,6 @@ class Equation extends EquationPart implements Serializable {
 
     }
 
-    Equation(EditText text){
-
-        isDecimal = false;
-        decimalCount = 0;
-        equation = new ArrayList<>();
-        this.text = text;
-
-    }
 
     /**
      * @param e add a custome equation in here
@@ -80,10 +78,7 @@ class Equation extends EquationPart implements Serializable {
         this.decimalCount = 0;
         equation = new ArrayList<>();
         equation.clear();
-        text.setText(null);
-        text.setTextSize(60);
-        text.setMovementMethod(new ScrollingMovementMethod());
-        text.setHorizontallyScrolling(true);
+
     }
 
     /**
@@ -167,7 +162,6 @@ class Equation extends EquationPart implements Serializable {
                     }
                     catch(NumberFormatException e){
                         this.clearEQ();
-                        text.setText("An Error has occurred");
                         break;
                     }
                 }
@@ -179,7 +173,6 @@ class Equation extends EquationPart implements Serializable {
     }
     catch(Exception e){
         clearEQ();
-        text.setText("An Error has occured.");
     }
 
     }
@@ -492,55 +485,7 @@ class Equation extends EquationPart implements Serializable {
     }
 
 
-    /**
-     * Used to update a textview that is associated with the equation.
-     */
-    protected void updateTextView(){
 
-        if(text != null) {
-
-            text.setText("");
-            for (int i = 0; i < equation.size(); i++) {
-
-                if(equation.get(i) == null){
-                    clearEQ();
-                    text.setText("Invalid Expression entered.");
-
-                    return;
-                }
-                //Handles Number representation
-                if (equation.get(i).getClass() == Number.class) {
-                    if(decimalCount == 0)
-                        text.setText(text.getText() + "" + ((Number) equation.get(i)).getValue().stripTrailingZeros().toPlainString());
-                    else
-                        text.setText(text.getText() + "" + ((Number) equation.get(i)).getDisplayItem());
-
-                } else
-                    text.setText(text.getText() + equation.get(i).getDisplayItem());
-                }
-
-
-                switch (text.getText().length()) {
-
-                    case 12:
-                        text.setTextSize(55);
-                        break;
-                    case 15:
-                        text.setTextSize(50);
-                        break;
-                    case 18:
-                        text.setTextSize(45);
-                        break;
-                    case 21:
-                        text.setTextSize(40);
-                        break;
-                    case 24:
-                        text.setTextSize(35);
-                        break;
-
-                }
-            }
-        }
 
 
     /**

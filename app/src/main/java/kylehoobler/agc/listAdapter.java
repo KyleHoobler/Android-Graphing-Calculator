@@ -60,7 +60,14 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
         }
 
         protected Equation getItem(int i){
-            return mData.get(i);
+
+            try {
+                return (Equation)mData.get(i);
+            }
+            catch(Exception e){
+                Log.d("Error", mData.get(i)+" " + e.getMessage());
+            }
+            return new Equation();
         }
     }
 

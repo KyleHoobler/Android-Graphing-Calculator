@@ -14,7 +14,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -25,8 +30,7 @@ public class FormulaView extends AppCompatActivity implements Serializable{
     protected SharedPreferences sharedPreference;
 
     private final String EQUATION = "EQ";
-    private ArrayList<String> tmp;
-    private ArrayList<Equation>equations;
+    private ArrayList<Equation> equations;
     private Toolbar myToolBar;
     private listAdapter adapter;
     private RecyclerView recyclerView;
@@ -51,18 +55,29 @@ public class FormulaView extends AppCompatActivity implements Serializable{
 
         equations = new ArrayList<>();
 
+        SharedPreferences.Editor x = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE).edit();
+        x.clear();
+
         sharedPreference = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE);
-        String tmp = sharedPreference.getString(EQUATION, null);
+        String tmp = sharedPreference.getString(EQUATIONLIST, null);
 
 
+        Log.d("test2", tmp);
 
         if(tmp != null){
 
-        }
+            Gson gson = new Gson();
+            equations = gson.fromJson(tmp, ArrayContainer.class).getList();
 
+
+
+        }
+        Log.d("test2", equations.toString());
 
         //Testing
         //addALotofItems();
+
+
 
         this.setContentView(R.layout.activity_equations);
         myToolBar = findViewById(R.id.my_toolbar);

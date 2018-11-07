@@ -5,12 +5,17 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 
 public class FormulaViewCalculator extends AppCompatActivity {
@@ -28,7 +33,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
 
         this.setContentView(R.layout.activity_formula_calculator);
         text = (EditText)findViewById(R.id.DisplayNum);
-        equation = new Equation(text);
+        equation = new Equation();
 
         initCalculator();
 
@@ -127,7 +132,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new SpecialNumber(EquationPart.PI));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -136,7 +141,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new SpecialNumber(EquationPart.E));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -145,7 +150,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(0.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
 
             }
@@ -155,7 +160,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(1.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -164,7 +169,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(2.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -173,7 +178,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(3.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -182,7 +187,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(4.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -191,7 +196,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(5.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -200,7 +205,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(6.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -209,7 +214,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(7.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -218,7 +223,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(8.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -227,7 +232,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(9.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -236,7 +241,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Decimal());
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -246,7 +251,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             public void onClick(View view) {
                 if(equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.ADD));
-                    equation.updateTextView();
+                    updateTextView();
                     text.setSelection(text.getText().length());
                 }
             }
@@ -257,7 +262,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             public void onClick(View view) {
                 if(equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.MULT));
-                    equation.updateTextView();
+                    updateTextView();
                     text.setSelection(text.getText().length());
                 }
             }
@@ -268,7 +273,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             public void onClick(View view) {
                 if(equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.DIV));
-                    equation.updateTextView();
+                    updateTextView();
                     text.setSelection(text.getText().length());
                 }
 
@@ -280,7 +285,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             public void onClick(View view) {
                 if(equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.SUB));
-                    equation.updateTextView();
+                    updateTextView();
                     text.setSelection(text.getText().length());
                 }
             }
@@ -291,7 +296,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             public void onClick(View view) {
                 if(equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.POW));
-                    equation.updateTextView();
+                    updateTextView();
                     text.setSelection(text.getText().length());
                 }
             }
@@ -302,7 +307,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new StartParenthesis());
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -311,7 +316,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new EndParenthesis());
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -320,7 +325,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new NumberOperation(EquationPart.SIN));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -329,7 +334,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new NumberOperation(EquationPart.COS));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -338,7 +343,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new NumberOperation(EquationPart.TAN));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -347,7 +352,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new NumberOperation(EquationPart.LOG));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -356,7 +361,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new NumberOperation(EquationPart.LN));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -365,7 +370,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new NumberOperation(EquationPart.SQRT));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -374,7 +379,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new NumberOperation(EquationPart.NEG));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -383,7 +388,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Variable());
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -392,7 +397,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new FactorialOperation());
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -402,7 +407,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
             public void onClick(View view) {
                 if(!equation.isEmpty()) {
                     equation.deleteItem();
-                    equation.updateTextView();
+                    updateTextView();
                     equation.setIsDecimal(false);
                     equation.setDecimalCount(0);
                     text.setSelection(text.getText().length());
@@ -422,24 +427,82 @@ public class FormulaViewCalculator extends AppCompatActivity {
             public void onClick(View view) {
                 isSaved = true;
 
-                Gson gson = new Gson();
-                String item = gson.toJson(equation.getEquation());
+                SharedPreferences prefs = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE);
+                String eqListGSON = prefs.getString(EQUATIONLIST, null);
+                Gson conv = new Gson();
+                ArrayContainer container;
+
+                if(eqListGSON == null)
+                     container = new ArrayContainer();
+                else{
+                    container = conv.fromJson(eqListGSON, ArrayContainer.class);
+
+                }
+
+                container.addItem(equation);
+                eqListGSON = conv.toJson(container);
 
 
-
-                SharedPreferences.Editor editor = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE).edit();
-
-                editor.putString(EQUATION, item);
-
-                editor.apply();
+                SharedPreferences.Editor edit = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE).edit();
+                edit.putString(EQUATIONLIST, eqListGSON);
+                edit.apply();
 
                 exit();
-
 
 
             }
         });
 
+    }
+
+    /**
+     * Used to update a textview that is associated with the equation.
+     */
+    protected void updateTextView(){
+
+        if(text != null) {
+
+            text.setText("");
+            for (int i = 0; i < equation.size(); i++) {
+
+                if(equation.get(i) == null){
+                    equation.clearEQ();
+                    text.setText("Invalid Expression entered.");
+
+                    return;
+                }
+                //Handles Number representation
+                if (equation.get(i).getClass() == Number.class) {
+                    if(equation.decimalCount == 0)
+                        text.setText(text.getText() + "" + ((Number) equation.get(i)).getValue().stripTrailingZeros().toPlainString());
+                    else
+                        text.setText(text.getText() + "" + ((Number) equation.get(i)).getDisplayItem());
+
+                } else
+                    text.setText(text.getText() + equation.get(i).getDisplayItem());
+            }
+
+
+            switch (text.getText().length()) {
+
+                case 12:
+                    text.setTextSize(55);
+                    break;
+                case 15:
+                    text.setTextSize(50);
+                    break;
+                case 18:
+                    text.setTextSize(45);
+                    break;
+                case 21:
+                    text.setTextSize(40);
+                    break;
+                case 24:
+                    text.setTextSize(35);
+                    break;
+
+            }
+        }
     }
 
     private void launchFormulaView(){

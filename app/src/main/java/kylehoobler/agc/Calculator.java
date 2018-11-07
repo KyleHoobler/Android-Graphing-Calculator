@@ -63,12 +63,6 @@ public class Calculator extends AppCompatActivity {
 
     }
 
-    @SuppressLint("NewApi")
-    protected void launchAlternativeCalc(){
-        setContentView(R.layout.activity_formula_calculator);
-
-        initCalcView();
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void initCalcView(){
@@ -79,7 +73,7 @@ public class Calculator extends AppCompatActivity {
 
 
 
-        equation = new Equation(text);
+        equation = new Equation();
         text.setMovementMethod(new ScrollingMovementMethod());
         text.setHorizontallyScrolling(true);
 
@@ -169,6 +163,10 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.clearEQ();
+                text.setText(null);
+                text.setTextSize(60);
+                text.setMovementMethod(new ScrollingMovementMethod());
+                text.setHorizontallyScrolling(true);
 
             }
         });
@@ -177,7 +175,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new SpecialNumber(EquationPart.PI));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -186,7 +184,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new SpecialNumber(EquationPart.E));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -195,7 +193,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(0.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
 
             }
@@ -205,7 +203,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(1.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -214,7 +212,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(2.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -223,7 +221,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(3.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -232,7 +230,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(4.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -241,7 +239,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(5.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -250,7 +248,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(6.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -259,7 +257,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(7.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -268,7 +266,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(8.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -277,7 +275,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Number(9.0));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -286,7 +284,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new Decimal());
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -296,7 +294,7 @@ public class Calculator extends AppCompatActivity {
             public void onClick(View view) {
                 if(equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.ADD));
-                    equation.updateTextView();
+                    updateTextView();
                     text.setSelection(text.getText().length());
                 }
             }
@@ -307,7 +305,7 @@ public class Calculator extends AppCompatActivity {
             public void onClick(View view) {
                 if(equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.MULT));
-                    equation.updateTextView();
+                    updateTextView();
                     text.setSelection(text.getText().length());
                 }
             }
@@ -318,7 +316,7 @@ public class Calculator extends AppCompatActivity {
             public void onClick(View view) {
                 if(equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.DIV));
-                    equation.updateTextView();
+                    updateTextView();
                     text.setSelection(text.getText().length());
                 }
 
@@ -330,7 +328,7 @@ public class Calculator extends AppCompatActivity {
             public void onClick(View view) {
                 if(equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.SUB));
-                    equation.updateTextView();
+                    updateTextView();
                     text.setSelection(text.getText().length());
                 }
             }
@@ -341,7 +339,7 @@ public class Calculator extends AppCompatActivity {
             public void onClick(View view) {
                 if(equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.POW));
-                    equation.updateTextView();
+                    updateTextView();
                     text.setSelection(text.getText().length());
                 }
             }
@@ -351,7 +349,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.solve();
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -360,7 +358,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new StartParenthesis());
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -369,7 +367,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new EndParenthesis());
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -378,7 +376,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new NumberOperation(EquationPart.SIN));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -387,7 +385,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new NumberOperation(EquationPart.COS));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -396,7 +394,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new NumberOperation(EquationPart.TAN));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -405,7 +403,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new NumberOperation(EquationPart.LOG));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -414,7 +412,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new NumberOperation(EquationPart.LN));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -423,7 +421,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new NumberOperation(EquationPart.SQRT));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -432,7 +430,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new NumberOperation(EquationPart.NEG));
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -441,7 +439,7 @@ public class Calculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 equation.addItem(new FactorialOperation());
-                equation.updateTextView();
+                updateTextView();
                 text.setSelection(text.getText().length());
             }
         });
@@ -451,7 +449,7 @@ public class Calculator extends AppCompatActivity {
             public void onClick(View view) {
                 if(!equation.isEmpty()) {
                     equation.deleteItem();
-                    equation.updateTextView();
+                    updateTextView();
                     equation.setIsDecimal(false);
                     equation.setDecimalCount(0);
                     text.setSelection(text.getText().length());
@@ -490,9 +488,59 @@ public class Calculator extends AppCompatActivity {
 
             if(savedInstanceState != null){
                 equation.setEquation((ArrayList)savedInstanceState.get("eq"));
-                equation.updateTextView();
+                updateTextView();
             }
 
+    }
+
+    /**
+     * Used to update a textview that is associated with the equation.
+     */
+    protected void updateTextView(){
+
+        if(text != null) {
+
+            text.setText("");
+            for (int i = 0; i < equation.size(); i++) {
+
+                if(equation.get(i) == null){
+                    equation.clearEQ();
+                    text.setText("Invalid Expression entered.");
+
+                    return;
+                }
+                //Handles Number representation
+                if (equation.get(i).getClass() == Number.class) {
+                    if(equation.decimalCount == 0)
+                        text.setText(text.getText() + "" + ((Number) equation.get(i)).getValue().stripTrailingZeros().toPlainString());
+                    else
+                        text.setText(text.getText() + "" + ((Number) equation.get(i)).getDisplayItem());
+
+                } else
+                    text.setText(text.getText() + equation.get(i).getDisplayItem());
+            }
+
+
+            switch (text.getText().length()) {
+
+                case 12:
+                    text.setTextSize(55);
+                    break;
+                case 15:
+                    text.setTextSize(50);
+                    break;
+                case 18:
+                    text.setTextSize(45);
+                    break;
+                case 21:
+                    text.setTextSize(40);
+                    break;
+                case 24:
+                    text.setTextSize(35);
+                    break;
+
+            }
+        }
     }
 
     @Override
