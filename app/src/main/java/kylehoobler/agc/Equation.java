@@ -31,6 +31,7 @@ class Equation extends EquationPart implements Serializable {
 
 
 
+
     Equation(){
 
         isDecimal = false;
@@ -71,6 +72,24 @@ class Equation extends EquationPart implements Serializable {
 
     protected boolean isEmpty(){
         return equation.isEmpty();
+    }
+
+    @Override
+    protected Equation clone() {
+         Equation clone = new Equation();
+
+         for(int i = 0; i < this.getEquation().size(); i++){
+
+             if(this.getEquation().get(i).getClass() != StartParenthesis.class)
+                clone.equation.add(this.getEquation().get(i));
+             else {
+                 StartParenthesis clon = new StartParenthesis();
+                 clon.setEq(((StartParenthesis)this.getEquation().get(i)).getEq().clone());
+                 clone.equation.add(clon);
+             }
+         }
+
+        return clone;
     }
 
     protected EquationPart get(int i){
@@ -378,7 +397,7 @@ class Equation extends EquationPart implements Serializable {
                    isDecimal = false;
                    decimalCount = 0;
 
-                   if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class){
+                   if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class ||equation.get(equation.size()-1).getClass() == Variable.class){
                        equation.add(new Operation(MULT));
                        equation.add(e);
                    }
@@ -529,6 +548,8 @@ class Equation extends EquationPart implements Serializable {
         return e;
     }
 
+
+
     @Override
     protected String getDisplayItem(){
         String builder = "";
@@ -556,4 +577,37 @@ class Equation extends EquationPart implements Serializable {
         }
 
     }
+
+    protected void replaceVariable(Number x){
+
+        for(int i =0; i < equation.size(); i++){
+            if(equation.get(i).getClass() == Variable.class) {
+                equation.set(i, x);
+                return;
+            }
+            if(equation.get(i).getClass() == StartParenthesis.class){
+                ((StartParenthesis)equation.get(i)).getEq().replaceVariable(x);
+                return;
+            }
+
+        }
+
+    }
+
+    protected int numVars(int x){
+
+
+        for(int i =0; i < equation.size(); i++){
+            if(equation.get(i).getClass() == Variable.class){
+                x++;
+            }
+            else if(equation.get(i).getClass() == StartParenthesis.class){
+               x+= ((StartParenthesis)equation.get(i)).getEq().numVars(0);
+            }
+
+        }
+
+        return x;
+    }
+
 }

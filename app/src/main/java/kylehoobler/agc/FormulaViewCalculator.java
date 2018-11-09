@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class FormulaViewCalculator extends AppCompatActivity {
 
     private boolean isSaved = false;
-    private final String EQUATION = "EQ";
+    protected final String EQUATION = "EQ";
     protected final String EQUATIONLIST = "equations";
     Equation equation = null;
     Button save;

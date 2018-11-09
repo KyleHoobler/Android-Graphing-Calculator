@@ -67,6 +67,7 @@ public class SaveBuilder {
                         break;
                     case "NumberOperation":
                         equation.addItem(new NumberOperation(splitter[2]));
+                        str.next();
                     case "FactorialOperation":
                         equation.addItem(new FactorialOperation());
                         break;

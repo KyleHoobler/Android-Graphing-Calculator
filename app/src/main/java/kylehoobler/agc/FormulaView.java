@@ -59,9 +59,9 @@ public class FormulaView extends AppCompatActivity implements Serializable{
         equations = new ArrayList<>();
         items = new ArrayList<>();
 
-        //SharedPreferences.Editor x = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE).edit();
-        //x.clear();
-        //x.apply();
+        //SharedPreferences.Editor op = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE).edit();
+        //op.clear();
+        //op.apply();
 
         sharedPreference = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE);
         String tmp = sharedPreference.getString(EQUATIONLIST, null);
@@ -80,7 +80,7 @@ public class FormulaView extends AppCompatActivity implements Serializable{
 
 
         }
-        
+
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 

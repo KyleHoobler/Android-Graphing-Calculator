@@ -12,6 +12,11 @@ public class StartParenthesis extends EquationPart implements java.io.Serializab
         id = 4;
     }
 
+    protected void setEq(Equation x){
+        this.eq = x;
+    }
+
+
     protected Equation getEq(){
         return eq;
     }

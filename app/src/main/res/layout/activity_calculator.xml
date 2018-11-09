@@ -243,6 +243,17 @@
                     android:textSize="18sp" />
 
                 <Button
+                    android:id="@+id/Eight"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/open_sans"
+
+                    android:text="@string/_8"
+                    android:textColor="@color/offWhite"
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
+
+                <Button
                     android:theme="@style/PrimaryButton"
                     android:id="@+id/Nine"
                     android:layout_width="wrap_content"
@@ -250,17 +261,6 @@
 
                     android:fontFamily="@font/open_sans"
                     android:text="@string/_9"
-                    android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
-
-                <Button
-                    android:theme="@style/PrimaryButton"
-                    android:id="@+id/Eight"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-                    android:fontFamily="@font/open_sans"
-                    android:text="@string/_8"
                     android:textColor="@color/offWhite"
                     android:textSize="18sp" />
 

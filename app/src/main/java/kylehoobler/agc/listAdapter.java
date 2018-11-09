@@ -3,23 +3,33 @@ package kylehoobler.agc;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AlertDialogLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
 
@@ -34,6 +44,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
         mData = data;
         this.context = context;
         variableInput = new ArrayList<>();
+
     }
 
     @NonNull
@@ -57,10 +68,11 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
 
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         private TextView textView;
         private ImageButton options;
+        protected final String EQUATIONLIST = "equations";
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,7 +85,6 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
                 @Override
                 public void onClick(View view) {
 
-                    if(hasVariable(mData.get(getAdapterPosition())))
                         makeVarDialogBox();
                 }
             });
@@ -81,21 +92,48 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
             options.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("item", mData.get(getAdapterPosition()).get(0).toString());
+                    PopupMenu popupMenu = new PopupMenu(context, options);
+                    popupMenu.inflate(R.menu.formula_dropdown);
+
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            switch (menuItem.getItemId()){
+                                case R.id.Delete:
+                                    mData.remove(getAdapterPosition());
+                                    notifyDataSetChanged();
+
+                                    SharedPreferences.Editor prefs = context.getSharedPreferences(EQUATIONLIST, MODE_PRIVATE).edit();
+                                    Gson conv = new Gson();
+
+                                    ArrayList<String> vals = new ArrayList<>();
+
+                                    for(int i = 0; i < mData.size(); i++){
+                                        vals.add(new SaveBuilder().convertToString(mData.get(i)));
+                                    }
+
+                                    String val = conv.toJson(vals, ArrayList.class);
+
+                                    prefs.clear();
+                                    prefs.putString(EQUATIONLIST, val);
+                                    prefs.apply();
+
+
+                                    return true;
+
+                            }
+
+                            return false;
+                        }
+                    });
+                    popupMenu.show();
 
                 }
             });
 
         }
 
-        private boolean hasVariable(Equation x){
-            for(int i = 0; i < x.size(); i++){
-                if(x.get(i).getDisplayItem().equals("x"))
-                    return true;
-            }
 
-            return false;
-        }
 
 
         protected void makeVarDialogBox(){
@@ -105,15 +143,11 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
             LinearLayout layout = new LinearLayout(context);
             layout.setOrientation(LinearLayout.VERTICAL);
 
-            AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-            dialog.setTitle("Enter Variables");
 
-            for(int i = 0; i < mData.get(getAdapterPosition()).getEquation().size(); i++){
+            for(int i = 0; i < mData.get(getAdapterPosition()).numVars(0); i++){
 
-                if(mData.get(getAdapterPosition()).getEquation().get(i).getDisplayItem().equals("x")) {
-                    variableInput.add(new EditText(context));
+                variableInput.add(new EditText(context));
 
-                }
             }
 
             int tmp = 1;
@@ -130,12 +164,54 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
             okay.setText("Solve");
             layout.addView(okay);
 
+            final AlertDialog dialog = new AlertDialog.Builder(context).setTitle("Enter Variables").setView(layout).show();
 
-            dialog.setView(layout);
 
-            dialog.show();
+            okay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+                    Equation vTemp = mData.get(getAdapterPosition()).clone();
+
+                        for (EditText e : variableInput) {
+                            Number num = new Number(1.0);
+
+                            if (!e.getText().toString().equals(""))
+                                num = new Number(new BigDecimal(e.getText().toString()));
+
+
+                            vTemp.replaceVariable(num);
+                        }
+
+
+                        vTemp.solve();
+                        displayAnswer(vTemp);
+                        dialog.cancel();
+                        variableInput.clear();
+
+                }
+            });
+
+
         }
 
+        protected void displayAnswer(Equation e){
+            LinearLayout layout = new LinearLayout(context);
+            layout.setOrientation(LinearLayout.VERTICAL);
+
+            final AlertDialog dialog = new AlertDialog.Builder(context).setTitle("Answer").setMessage(((Number)(e).get(0)).getValue().doubleValue()+"").setCancelable(true) .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.dismiss();
+                }
+            }).show();
+
+            variableInput.clear();
+
+            TextView text = (TextView) dialog.findViewById(android.R.id.message);
+            text.setTextSize(40);
+
+        }
 
 
         protected Equation getItem(int i){
