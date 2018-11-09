@@ -9,11 +9,13 @@ public class StartParenthesis extends EquationPart implements java.io.Serializab
     protected StartParenthesis(){
         eq = new Equation();
         this.setPriority(7);
+        id = 4;
     }
 
     protected Equation getEq(){
         return eq;
     }
+
 
 
     @Override

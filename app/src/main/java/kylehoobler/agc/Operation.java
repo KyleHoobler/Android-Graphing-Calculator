@@ -6,14 +6,13 @@ import java.math.RoundingMode;
 
 public class Operation extends EquationPart implements java.io.Serializable{
 
-    private String operation;
-
-
+    protected String operation;
 
     protected Operation(String op){
 
         operation = op;
         operationPriority();
+        id = 5;
 
         //Default value
 
@@ -43,6 +42,7 @@ public class Operation extends EquationPart implements java.io.Serializable{
 
         operation = op;
         operationPriority();
+        id = 5;
 
         //Default value
         decimalLength = decLen;

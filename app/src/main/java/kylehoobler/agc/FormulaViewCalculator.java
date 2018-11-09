@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -24,6 +26,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
     private final String EQUATION = "EQ";
     protected final String EQUATIONLIST = "equations";
     Equation equation = null;
+    Button save;
     EditText text;
 
     @Override
@@ -92,7 +95,6 @@ public class FormulaViewCalculator extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
-        float density  = getResources().getDisplayMetrics().density;
 
         for (Button x : base){
 
@@ -103,7 +105,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
 
         //Cancel or save buttons
         Button cancel = findViewById(R.id.cancel);
-        Button save = findViewById(R.id.Save);
+        save = findViewById(R.id.Save);
 
         //Top Bar Buttons
         Button clear = findViewById(R.id.Clear);
@@ -117,14 +119,18 @@ public class FormulaViewCalculator extends AppCompatActivity {
 
         //Variable
         Button var = findViewById(R.id.variable);
+        save.setClickable(false);
 
+        text.setTextSize(60);
+        text.setMovementMethod(new ScrollingMovementMethod());
+        text.setHorizontallyScrolling(true);
 
 
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.clearEQ();
-
+                equation = new Equation();
+                updateTextView();
             }
         });
 
@@ -164,6 +170,8 @@ public class FormulaViewCalculator extends AppCompatActivity {
                 text.setSelection(text.getText().length());
             }
         });
+
+
 
         two.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -426,24 +434,35 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 isSaved = true;
+                ArrayList<String> items = new ArrayList<>();
 
                 SharedPreferences prefs = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE);
+
+
                 String eqListGSON = prefs.getString(EQUATIONLIST, null);
-                Gson conv = new Gson();
-                ArrayContainer container;
 
-                if(eqListGSON == null)
-                     container = new ArrayContainer();
-                else{
-                    container = conv.fromJson(eqListGSON, ArrayContainer.class);
+                final Gson conv = new Gson();
 
+
+                if(eqListGSON != null){
+                    items = conv.fromJson(eqListGSON, ArrayList.class);
                 }
 
-                container.addItem(equation);
-                eqListGSON = conv.toJson(container);
 
+
+
+
+                String saved =  new SaveBuilder().convertToString(equation);
+                Log.d("tester", saved);
+
+                items.add(saved);
+
+                eqListGSON = conv.toJson(items);
+
+                Log.d("test2", eqListGSON);
 
                 SharedPreferences.Editor edit = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE).edit();
+                edit.clear();
                 edit.putString(EQUATIONLIST, eqListGSON);
                 edit.apply();
 
@@ -471,17 +490,20 @@ public class FormulaViewCalculator extends AppCompatActivity {
 
                     return;
                 }
+
                 //Handles Number representation
                 if (equation.get(i).getClass() == Number.class) {
-                    if(equation.decimalCount == 0)
+                    if(equation.decimalCount == 0) {
                         text.setText(text.getText() + "" + ((Number) equation.get(i)).getValue().stripTrailingZeros().toPlainString());
-                    else
+                    } else
                         text.setText(text.getText() + "" + ((Number) equation.get(i)).getDisplayItem());
 
                 } else
                     text.setText(text.getText() + equation.get(i).getDisplayItem());
             }
 
+
+            disableSaveButton();
 
             switch (text.getText().length()) {
 
@@ -505,11 +527,23 @@ public class FormulaViewCalculator extends AppCompatActivity {
         }
     }
 
+    private void disableSaveButton(){
+        if(equation.size() > 0) {
+            if (equation.endsInOperation()) {
+                save.setAlpha(.5f);
+                save.setClickable(false);
+            }
+            else {
+                save.setClickable(true);
+                save.setAlpha(1);
+            }
+
+        }
+    }
+
     private void launchFormulaView(){
         Intent tmp = new Intent(this, FormulaView.class);
         this.startActivity(tmp);
-
     }
-
 
 }

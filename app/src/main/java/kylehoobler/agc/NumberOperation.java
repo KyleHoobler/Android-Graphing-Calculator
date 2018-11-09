@@ -8,12 +8,13 @@ import java.math.BigDecimal;
  */
 public class NumberOperation extends EquationPart implements java.io.Serializable{
 
-    private String operation;
+    protected String operation;
 
 
     protected NumberOperation(String op){
 
         operation = op;
+        id = 7;
 
         //Six is priority of Parenthesis
         this.addPriority(6);

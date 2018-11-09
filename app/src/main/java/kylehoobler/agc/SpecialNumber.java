@@ -6,14 +6,11 @@ import java.math.RoundingMode;
 public class SpecialNumber extends Number implements java.io.Serializable{
 
     protected String opcode;
-    protected int decimalLength;
 
     protected SpecialNumber(String opcode){
 
         this.opcode = opcode;
-
-        //Default placeholder
-        decimalLength = 10;
+        id = 6;
 
 
         switch (opcode){

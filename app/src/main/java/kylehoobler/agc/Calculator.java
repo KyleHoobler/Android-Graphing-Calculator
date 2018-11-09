@@ -142,7 +142,6 @@ public class Calculator extends AppCompatActivity {
 
             x.getLayoutParams().width = outMetrics.widthPixels / 4;
 
-
         }
 
         //Top Bar Buttons
@@ -516,7 +515,8 @@ public class Calculator extends AppCompatActivity {
                     else
                         text.setText(text.getText() + "" + ((Number) equation.get(i)).getDisplayItem());
 
-                } else
+                }
+                else
                     text.setText(text.getText() + equation.get(i).getDisplayItem());
             }
 

@@ -14,6 +14,8 @@ class FactorialOperation extends EquationPart implements java.io.Serializable{
         num1 = null;
         this.setDisplayItem(EquationPart.dispFac);
         this.setPriority(6);
+        id = 8;
+
     }
 
 

@@ -17,6 +17,8 @@ class EquationPart implements java.io.Serializable{
     private int priority;
     private String displayItem;
     protected int decimalLength;
+    protected int id;
+
 
     //Constants
     protected static final String ADD = "Add";
@@ -55,6 +57,7 @@ class EquationPart implements java.io.Serializable{
         displayItem = "";
         //default priority of 0
         priority = 0;
+        id = -1;
 
     }
 

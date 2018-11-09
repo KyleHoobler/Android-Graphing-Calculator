@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
@@ -31,10 +32,12 @@ public class FormulaView extends AppCompatActivity implements Serializable{
 
     private final String EQUATION = "EQ";
     private ArrayList<Equation> equations;
+    private ArrayList<String> items;
     private Toolbar myToolBar;
     private listAdapter adapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
+
 
 
     @Override
@@ -54,34 +57,30 @@ public class FormulaView extends AppCompatActivity implements Serializable{
         super.onCreate(savedInstanceState);
 
         equations = new ArrayList<>();
+        items = new ArrayList<>();
 
-        SharedPreferences.Editor x = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE).edit();
-        x.clear();
+        //SharedPreferences.Editor x = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE).edit();
+        //x.clear();
+        //x.apply();
 
         sharedPreference = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE);
         String tmp = sharedPreference.getString(EQUATIONLIST, null);
 
-
-        Log.d("test2", tmp);
+        this.setContentView(R.layout.activity_equations);
+        myToolBar = findViewById(R.id.my_toolbar);
+        recyclerView = findViewById(R.id.list);
 
         if(tmp != null){
 
             Gson gson = new Gson();
-            equations = gson.fromJson(tmp, ArrayContainer.class).getList();
-
+            items = gson.fromJson(tmp, ArrayList.class);
+            for(String x : items){
+                equations.add(new SaveBuilder().convertToEquation(x));
+            }
 
 
         }
-        Log.d("test2", equations.toString());
-
-        //Testing
-        //addALotofItems();
-
-
-
-        this.setContentView(R.layout.activity_equations);
-        myToolBar = findViewById(R.id.my_toolbar);
-        recyclerView = findViewById(R.id.list);
+        
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
@@ -102,35 +101,14 @@ public class FormulaView extends AppCompatActivity implements Serializable{
             emptyText.setVisibility(View.VISIBLE);
 
         }
-
-
     }
 
     public void launchCalculator(){
+
         Intent tmp = new Intent(this, FormulaViewCalculator.class);
         this.startActivity(tmp);
 
-
     }
-
-
-    /**
-     * Test method
-     *
-     * TODO: Remove this
-     */
-    private void addALotofItems(){
-
-        ArrayList x = new ArrayList();
-
-        x.add(new Number(new BigDecimal(1)));
-        for(int i =0; i< 1000; i++) {
-            equations.add(new Equation(x));
-        }
-
-
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
