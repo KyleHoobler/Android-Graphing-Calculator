@@ -1,14 +1,10 @@
 package kylehoobler.agc;
 
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AlertDialogLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
@@ -22,8 +18,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.gson.Gson;
 
 import java.math.BigDecimal;
@@ -84,8 +78,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                        makeVarDialogBox();
+                    makeVarDialogBox();
                 }
             });
 
@@ -98,6 +91,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem menuItem) {
+
                             switch (menuItem.getItemId()){
                                 case R.id.Delete:
                                     mData.remove(getAdapterPosition());
@@ -132,8 +126,6 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
             });
 
         }
-
-
 
 
         protected void makeVarDialogBox(){
@@ -180,7 +172,6 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
                             if (!e.getText().toString().equals(""))
                                 num = new Number(new BigDecimal(e.getText().toString()));
 
-
                             vTemp.replaceVariable(num);
                         }
 
@@ -214,22 +205,19 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
         }
 
 
+
         protected Equation getItem(int i){
 
             try {
                 return (Equation)mData.get(i);
             }
             catch(Exception e){
-                Log.d("Error", mData.get(i)+" " + e.getMessage());
+
             }
             return new Equation();
         }
 
-
-
-
     }
-
 
 }
 

@@ -11,7 +11,6 @@ public class Number extends EquationPart implements java.io.Serializable{
         this.setDisplayItem("0");
         value = new BigDecimal(0);
         this.setPriority(0);
-        id = 0;
     }
 
     protected Number(BigDecimal value){
@@ -19,7 +18,6 @@ public class Number extends EquationPart implements java.io.Serializable{
         this.setDisplayItem(value.stripTrailingZeros() +"");
         this.value = value;
         this.setPriority(0);
-        id = 0;
 
     }
 
@@ -27,7 +25,6 @@ public class Number extends EquationPart implements java.io.Serializable{
         this.setDisplayItem(value +"");
         this.value = new BigDecimal(value);
         this.setPriority(0);
-        id  = 0;
     }
 
 

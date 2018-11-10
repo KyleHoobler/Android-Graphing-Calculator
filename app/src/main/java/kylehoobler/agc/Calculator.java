@@ -23,14 +23,8 @@ import java.util.ArrayList;
 public class Calculator extends AppCompatActivity {
 
 
-
-    private int layoutID;
     boolean disabled = false;
-    private static final int CALCVIEW = 0;
-    private static final int GRAPHVIEW = 1;
-    private static final int FORMULAVIEW = 2;
     private Equation equation = new Equation();
-    private char tmpVar;
     private EditText text;
 
 
@@ -39,14 +33,11 @@ public class Calculator extends AppCompatActivity {
         Intent intent = new Intent(this, FormulaView.class);
 
         startActivity(intent);
-        layoutID = FORMULAVIEW;
-
 
     }
 
     private void initGraphPage(){
 
-        layoutID = GRAPHVIEW;
         Intent gr = new Intent(this, GraphView.class);
         this.startActivity(gr);
 
@@ -56,7 +47,6 @@ public class Calculator extends AppCompatActivity {
     @SuppressLint("NewApi")
     private void initCalculator(){
         setContentView(R.layout.activity_calculator);
-        layoutID = CALCVIEW;
 
         initCalcView();
 
@@ -551,11 +541,5 @@ public class Calculator extends AppCompatActivity {
         outState.putSerializable("eq", equation.getEquation());
     }
 
-
-
-
-    public void makeToast(String text){
-        Toast.makeText(this.getBaseContext(),text, Toast.LENGTH_SHORT).show();
-    }
 
 }

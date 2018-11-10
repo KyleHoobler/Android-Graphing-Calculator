@@ -37,22 +37,8 @@ class Equation extends EquationPart implements Serializable {
         isDecimal = false;
         this.decimalCount = 0;
         equation = new ArrayList<>();
-        id = 1;
-
-
     }
 
-
-    /**
-     * @param e add a custome equation in here
-     */
-     Equation(ArrayList<EquationPart> e){
-        isDecimal = false;
-        decimalCount = 0;
-        equation = e;
-         id = 1;
-
-    }
 
     protected ArrayList<EquationPart> getEquation(){
         return equation;
@@ -148,8 +134,6 @@ class Equation extends EquationPart implements Serializable {
 
 
                 Pair<Integer, Integer> tmp = getMaxPriority();
-                //Log.d("test2", equation.toString() + " " + tmp.second);
-
 
                 if (equation.get(tmp.second).getClass() == Operation.class) {
 
@@ -578,20 +562,23 @@ class Equation extends EquationPart implements Serializable {
 
     }
 
-    protected void replaceVariable(Number x){
+    protected boolean replaceVariable(Number x){
 
         for(int i =0; i < equation.size(); i++){
             if(equation.get(i).getClass() == Variable.class) {
                 equation.set(i, x);
-                return;
+                return true;
             }
             if(equation.get(i).getClass() == StartParenthesis.class){
-                ((StartParenthesis)equation.get(i)).getEq().replaceVariable(x);
-                return;
+                if(((StartParenthesis)equation.get(i)).getEq().replaceVariable(x))
+                    return true;
+                else
+                    continue;
             }
 
         }
 
+        return false;
     }
 
     protected int numVars(int x){

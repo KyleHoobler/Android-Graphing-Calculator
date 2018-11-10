@@ -16,12 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
 import java.io.Serializable;
-import java.lang.reflect.Type;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class FormulaView extends AppCompatActivity implements Serializable{

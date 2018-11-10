@@ -14,7 +14,6 @@ public class NumberOperation extends EquationPart implements java.io.Serializabl
     protected NumberOperation(String op){
 
         operation = op;
-        id = 7;
 
         //Six is priority of Parenthesis
         this.addPriority(6);

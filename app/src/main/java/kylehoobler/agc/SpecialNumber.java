@@ -10,8 +10,6 @@ public class SpecialNumber extends Number implements java.io.Serializable{
     protected SpecialNumber(String opcode){
 
         this.opcode = opcode;
-        id = 6;
-
 
         switch (opcode){
             case PI: this.setValue(new BigDecimal(Math.PI).divide(new BigDecimal(1), decimalLength, RoundingMode.HALF_UP)); this.setDisplayItem(dispPi); break;

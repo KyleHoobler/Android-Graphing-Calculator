@@ -9,7 +9,6 @@ public class Decimal extends EquationPart implements java.io.Serializable{
     protected Decimal(){
 
         this.setDisplayItem(".");
-        id = 2;
 
     }
 

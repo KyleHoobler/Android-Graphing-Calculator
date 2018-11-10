@@ -12,10 +12,6 @@ public class Operation extends EquationPart implements java.io.Serializable{
 
         operation = op;
         operationPriority();
-        id = 5;
-
-        //Default value
-
 
         switch (this.operation) {
             case SUB:
@@ -42,7 +38,6 @@ public class Operation extends EquationPart implements java.io.Serializable{
 
         operation = op;
         operationPriority();
-        id = 5;
 
         //Default value
         decimalLength = decLen;

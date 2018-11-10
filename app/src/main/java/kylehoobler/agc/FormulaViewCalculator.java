@@ -453,13 +453,10 @@ public class FormulaViewCalculator extends AppCompatActivity {
 
 
                 String saved =  new SaveBuilder().convertToString(equation);
-                Log.d("tester", saved);
 
                 items.add(saved);
 
                 eqListGSON = conv.toJson(items);
-
-                Log.d("test2", eqListGSON);
 
                 SharedPreferences.Editor edit = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE).edit();
                 edit.clear();
