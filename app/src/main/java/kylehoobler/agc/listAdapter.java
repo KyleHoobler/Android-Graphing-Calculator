@@ -78,7 +78,12 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeVarDialogBox();
+                    if(mData.get(getAdapterPosition()).numVars(0) != 0)
+                        makeVarDialogBox();
+                    else{
+                        Equation vTemp = mData.get(getAdapterPosition()).clone();
+                        displayAnswer(vTemp);
+                    }
                 }
             });
 
@@ -155,6 +160,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
             Button okay = new Button(context);
             okay.setText("Solve");
             layout.addView(okay);
+
 
             final AlertDialog dialog = new AlertDialog.Builder(context).setTitle("Enter Variables").setView(layout).show();
 

@@ -26,6 +26,9 @@ public class GraphView extends AppCompatActivity {
         Toolbar myToolBar = findViewById(R.id.GraphBar);
         setSupportActionBar(myToolBar);
 
+
+
+
     }
 
     @Override

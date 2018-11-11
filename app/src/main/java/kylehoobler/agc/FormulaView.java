@@ -25,7 +25,6 @@ public class FormulaView extends AppCompatActivity implements Serializable{
 
     protected SharedPreferences sharedPreference;
 
-    private final String EQUATION = "EQ";
     private ArrayList<Equation> equations;
     private ArrayList<String> items;
     private Toolbar myToolBar;
@@ -54,9 +53,6 @@ public class FormulaView extends AppCompatActivity implements Serializable{
         equations = new ArrayList<>();
         items = new ArrayList<>();
 
-        //SharedPreferences.Editor op = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE).edit();
-        //op.clear();
-        //op.apply();
 
         sharedPreference = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE);
         String tmp = sharedPreference.getString(EQUATIONLIST, null);
@@ -72,8 +68,6 @@ public class FormulaView extends AppCompatActivity implements Serializable{
             for(String x : items){
                 equations.add(new SaveBuilder().convertToEquation(x));
             }
-
-
         }
 
 
