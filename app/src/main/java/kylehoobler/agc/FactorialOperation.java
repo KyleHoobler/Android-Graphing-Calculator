@@ -19,7 +19,6 @@ class FactorialOperation extends EquationPart implements java.io.Serializable{
 
     protected BigDecimal factorial(BigDecimal value) throws NumberFormatException{
 
-
             if (value.intValue() > 0)
                 return value.multiply(factorial(value.subtract(new BigDecimal(1))));
             else
@@ -29,6 +28,8 @@ class FactorialOperation extends EquationPart implements java.io.Serializable{
     }
 
     protected Number getFactorial(Number x){
+        if(x.getValue().intValue() > 20000)
+            return null;
 
         return new Number(factorial(x.getValue()));
     }

@@ -15,7 +15,7 @@ public class Number extends EquationPart implements java.io.Serializable{
 
     protected Number(BigDecimal value){
 
-        this.setDisplayItem(value.stripTrailingZeros() +"");
+        this.setDisplayItem(value.stripTrailingZeros().toPlainString() +"");
         this.value = value;
         this.setPriority(0);
 

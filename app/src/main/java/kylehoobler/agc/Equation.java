@@ -30,8 +30,6 @@ class Equation extends EquationPart implements Serializable {
     private boolean isDecimal;
 
 
-
-
     Equation(){
 
         isDecimal = false;
@@ -115,9 +113,6 @@ class Equation extends EquationPart implements Serializable {
     }
 
 
-
-
-
     /**
      * Logic behind the calculator, this will solve the equation.
      */
@@ -171,11 +166,18 @@ class Equation extends EquationPart implements Serializable {
                 }
                 else if(equation.get(tmp.second).getClass() == FactorialOperation.class){
                     try {
-                        equation.set(tmp.second - 1, ((FactorialOperation) equation.get(tmp.second)).getFactorial((Number) equation.get(tmp.second - 1)));
+
+                        Number item = ((FactorialOperation) equation.get(tmp.second)).getFactorial((Number) equation.get(tmp.second - 1));
+                        if(item.getValue() == null)
+                            throw new Exception();
+
+                        equation.set(tmp.second - 1, item);
                         equation.remove(tmp.second.intValue());
                     }
-                    catch(NumberFormatException e){
+                    catch(Exception e){
+
                         this.clearEQ();
+                        equation.add(new ErrorItem("Error Number too large."));
                         break;
                     }
                 }
@@ -187,6 +189,7 @@ class Equation extends EquationPart implements Serializable {
     }
     catch(Exception e){
         clearEQ();
+        equation.add(new ErrorItem());
     }
 
     }
@@ -411,11 +414,14 @@ class Equation extends EquationPart implements Serializable {
                   //Parenthesis Check
                   if(equation.get(equation.size()-1).getClass() == StartParenthesis.class){
 
-                      ((StartParenthesis)equation.get(equation.size()-1)).getEq().addItem(e);
-                      ((StartParenthesis) equation.get(equation.size() - 1)).setDisplayItem(((StartParenthesis) equation.get(equation.size() - 1)).getDisplayItem());
+
+                          ((StartParenthesis) equation.get(equation.size() - 1)).getEq().addItem(e);
+                          ((StartParenthesis) equation.get(equation.size() - 1)).setDisplayItem(((StartParenthesis) equation.get(equation.size() - 1)).getDisplayItem());
                   }
                   else{
-                      equation.add(e);
+
+                          equation.add(e);
+
                   }
                }
 
@@ -425,7 +431,7 @@ class Equation extends EquationPart implements Serializable {
                   isDecimal = false;
                   decimalCount = 0;
 
-                  if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class){
+                  if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == Variable.class){
                       equation.add(e);
                   }
                   else if(equation.get(equation.size()-1).getClass() == StartParenthesis.class){
@@ -460,7 +466,7 @@ class Equation extends EquationPart implements Serializable {
                           ((StartParenthesis) equation.get(equation.size() - 1)).setDisplayItem(((StartParenthesis) equation.get(equation.size() - 1)).getDisplayItem());
                       }
                   }
-                  else{
+                  else if(equation.get(equation.size()-1).getClass() != EndParenthesis.class){
                       equation.add(e);
                   }
 
@@ -512,9 +518,6 @@ class Equation extends EquationPart implements Serializable {
         }
 
     }
-
-
-
 
 
     /**
@@ -595,6 +598,12 @@ class Equation extends EquationPart implements Serializable {
         }
 
         return x;
+    }
+
+    protected boolean hasEndParen(){
+
+        return equation.get(equation.size()-1).getClass() == EndParenthesis.class;
+
     }
 
 }
