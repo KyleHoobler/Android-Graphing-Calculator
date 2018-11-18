@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
-import android.widget.Toast;
+
 import java.util.ArrayList;
 
 
@@ -30,7 +30,7 @@ public class Calculator extends AppCompatActivity {
 
     private void initFormulaPage(){
 
-        Intent intent = new Intent(this, FormulaView.class);
+        Intent intent = new Intent(this, FormulaIntent.class);
 
         startActivity(intent);
 
@@ -38,7 +38,7 @@ public class Calculator extends AppCompatActivity {
 
     private void initGraphPage(){
 
-        Intent gr = new Intent(this, GraphView.class);
+        Intent gr = new Intent(this, GraphIntent.class);
         this.startActivity(gr);
 
     }

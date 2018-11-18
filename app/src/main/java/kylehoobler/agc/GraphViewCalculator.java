@@ -16,11 +16,10 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 
-public class FormulaViewCalculator extends AppCompatActivity {
+public class GraphViewCalculator extends AppCompatActivity {
 
-    private boolean isSaved = false;
     protected final String EQUATION = "EQ";
-    protected final String EQUATIONLIST = "equations";
+    protected final String GRAPHLIST = "GraphEquations";
     Equation equation = null;
     Button save;
     EditText text;
@@ -48,15 +47,13 @@ public class FormulaViewCalculator extends AppCompatActivity {
     }
 
     protected void exit() {
-        Intent x = new Intent(this, FormulaIntent.class);
+        Intent x = new Intent(this, GraphIntent.class);
         x.putExtra(EQUATION, equation.getEquation());
 
         startActivity(x);
     }
 
     private void initCalculator(){
-
-
 
         //Buttons in Scrolling view
         Button one = findViewById(R.id.One);
@@ -93,10 +90,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
         display.getMetrics(outMetrics);
 
         for (Button x : base){
-
             x.getLayoutParams().width = outMetrics.widthPixels / 4;
-
-
         }
 
         //Cancel or save buttons
@@ -422,20 +416,20 @@ public class FormulaViewCalculator extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchFormulaView();
+                launchGraphView();
             }
         });
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isSaved = true;
+
                 ArrayList<String> items = new ArrayList<>();
 
-                SharedPreferences prefs = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE);
+                SharedPreferences prefs = getSharedPreferences(GRAPHLIST, MODE_PRIVATE);
 
 
-                String eqListGSON = prefs.getString(EQUATIONLIST, null);
+                String eqListGSON = prefs.getString(GRAPHLIST, null);
 
                 final Gson conv = new Gson();
 
@@ -444,19 +438,15 @@ public class FormulaViewCalculator extends AppCompatActivity {
                     items = conv.fromJson(eqListGSON, ArrayList.class);
                 }
 
-
-
-
-
                 String saved =  new SaveBuilder().convertToString(equation);
 
                 items.add(saved);
 
                 eqListGSON = conv.toJson(items);
 
-                SharedPreferences.Editor edit = getSharedPreferences(EQUATIONLIST, MODE_PRIVATE).edit();
+                SharedPreferences.Editor edit = getSharedPreferences(GRAPHLIST, MODE_PRIVATE).edit();
                 edit.clear();
-                edit.putString(EQUATIONLIST, eqListGSON);
+                edit.putString(GRAPHLIST, eqListGSON);
                 edit.apply();
 
                 exit();
@@ -534,8 +524,8 @@ public class FormulaViewCalculator extends AppCompatActivity {
         }
     }
 
-    private void launchFormulaView(){
-        Intent tmp = new Intent(this, FormulaIntent.class);
+    private void launchGraphView(){
+        Intent tmp = new Intent(this, GraphIntent.class);
         this.startActivity(tmp);
     }
 

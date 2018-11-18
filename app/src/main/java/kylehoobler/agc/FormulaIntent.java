@@ -8,7 +8,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,7 +18,7 @@ import com.google.gson.Gson;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class FormulaView extends AppCompatActivity implements Serializable{
+public class FormulaIntent extends AppCompatActivity implements Serializable{
 
     protected final String EQUATIONLIST = "equations";
 
@@ -116,7 +115,7 @@ public class FormulaView extends AppCompatActivity implements Serializable{
                 this.startActivity(ca);
                 return true;
             case "Graph":
-                Intent gr = new Intent(this, GraphView.class);
+                Intent gr = new Intent(this, GraphIntent.class);
                 this.startActivity(gr);
                 return true;
             case "Formulas":

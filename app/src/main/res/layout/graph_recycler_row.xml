@@ -5,8 +5,7 @@
     android:id="@+id/row"
     android:layout_width="match_parent"
     android:layout_height="70dp"
-    android:orientation="horizontal"
-    android:padding="10dp">
+    android:orientation="horizontal">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,8 +15,10 @@
             android:id="@+id/checkbox"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/color"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
@@ -33,12 +34,25 @@
             android:id="@+id/equation_row"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:maxLines="1"
             android:textAlignment="viewStart"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/rowOptions"
             app:layout_constraintStart_toEndOf="@+id/checkbox"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/color"
+            android:layout_width="15dp"
+            android:layout_height="0dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/checkbox"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>

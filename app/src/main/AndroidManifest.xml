@@ -18,9 +18,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".FormulaView"></activity>
+        <activity android:name=".FormulaIntent"></activity>
         <activity android:name=".FormulaViewCalculator"></activity>
-        <activity android:name=".GraphView"></activity>
+        <activity android:name=".GraphViewCalculator"></activity>
+        <activity android:name=".GraphIntent"></activity>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

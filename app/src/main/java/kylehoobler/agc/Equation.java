@@ -449,7 +449,7 @@ class Equation extends EquationPart implements Serializable {
 
               else if(e.getClass() == Variable.class){
 
-                  if(equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == Variable.class){
+                  if(equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == Variable.class || equation.get(equation.size()-1).getClass() == FactorialOperation.class){
 
                       equation.add(new Operation(MULT));
                       equation.add(e);
@@ -465,6 +465,9 @@ class Equation extends EquationPart implements Serializable {
                           ((StartParenthesis) equation.get(equation.size() - 1)).getEq().addItem(e);
                           ((StartParenthesis) equation.get(equation.size() - 1)).setDisplayItem(((StartParenthesis) equation.get(equation.size() - 1)).getDisplayItem());
                       }
+                  }
+                  else if(equation.get(equation.size()-1).getClass() == Decimal.class){
+
                   }
                   else if(equation.get(equation.size()-1).getClass() != EndParenthesis.class){
                       equation.add(e);
@@ -583,6 +586,20 @@ class Equation extends EquationPart implements Serializable {
 
         return false;
     }
+
+    protected void replaceAllVariables(int num){
+
+        for(int i = 0; i < equation.size(); i++){
+            if(equation.get(i).getClass() == Variable.class) {
+                equation.set(i, new Number(new BigDecimal(num)));
+            }
+            else if(equation.get(i).getClass() == StartParenthesis.class){
+                ((StartParenthesis)equation.get(i)).getEq().replaceAllVariables(num);
+            }
+        }
+
+    }
+
 
     protected int numVars(int x){
 

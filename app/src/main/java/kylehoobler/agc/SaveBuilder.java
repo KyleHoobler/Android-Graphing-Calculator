@@ -85,10 +85,6 @@ public class SaveBuilder {
                 }
             }
 
-
-
-
-            Log.d("Item", item);
         }
 
         str.close();

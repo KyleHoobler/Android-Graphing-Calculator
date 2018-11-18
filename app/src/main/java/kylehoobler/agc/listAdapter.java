@@ -102,6 +102,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
                                     mData.remove(getAdapterPosition());
                                     notifyDataSetChanged();
 
+
                                     SharedPreferences.Editor prefs = context.getSharedPreferences(EQUATIONLIST, MODE_PRIVATE).edit();
                                     Gson conv = new Gson();
 
@@ -182,7 +183,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
                         }
 
 
-                        vTemp.solve();
+
                         displayAnswer(vTemp);
                         dialog.cancel();
                         variableInput.clear();
@@ -197,16 +198,30 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
             LinearLayout layout = new LinearLayout(context);
             layout.setOrientation(LinearLayout.VERTICAL);
 
-            final AlertDialog dialog = new AlertDialog.Builder(context).setTitle("Answer").setMessage(((Number)(e).get(0)).getValue().doubleValue()+"").setCancelable(true) .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.dismiss();
-                }
-            }).show();
+            try {
+                e.solve();
 
-            variableInput.clear();
+                final AlertDialog dialog = new AlertDialog.Builder(context).setTitle("Answer").setMessage(((Number) (e).get(0)).getValue().doubleValue() + "").setCancelable(true).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                }).show();
 
-            TextView text = (TextView) dialog.findViewById(android.R.id.message);
-            text.setTextSize(40);
+                variableInput.clear();
+
+                TextView text = (TextView) dialog.findViewById(android.R.id.message);
+                text.setTextSize(40);
+
+            }
+            catch (Exception m){
+                final AlertDialog dialog = new AlertDialog.Builder(context).setTitle("Error").setMessage("An error has occured.").setCancelable(true).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                }).show();
+            }
+
+
 
         }
 
