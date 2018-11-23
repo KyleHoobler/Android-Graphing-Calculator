@@ -123,6 +123,10 @@ public class FormulaIntent extends AppCompatActivity implements Serializable{
             case "Add":
                 launchCalculator();
                 return true;
+            case "About":
+                Intent intent = new Intent(this, AboutProject.class);
+                this.startActivity(intent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

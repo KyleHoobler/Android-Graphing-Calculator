@@ -127,6 +127,10 @@ public class GraphIntent extends AppCompatActivity {
                 Intent calc = new Intent(this, GraphViewCalculator.class);
                 this.startActivity(calc);
                 return true;
+            case "About":
+                Intent intent = new Intent(this, AboutProject.class);
+                this.startActivity(intent);
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
