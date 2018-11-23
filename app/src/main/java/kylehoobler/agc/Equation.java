@@ -218,10 +218,17 @@ class Equation extends EquationPart implements Serializable {
               if (e.getClass() == Number.class) {
                     Number val = (Number)e;
 
+
+
                     //Number not declared as a decimal
                    if(equation.get(equation.size()-1).getClass() == Number.class && !isDecimal){
                        //Complicated way to get the number and increment it's value
+
+                       if(((Number)equation.get(equation.size()-1)).getValue().doubleValue() > 0)
                        equation.set(equation.size()-1, new Number(((Number)equation.get(equation.size()-1)).getValue().multiply(new BigDecimal(10)).add(val.getValue()) ));
+                       else{
+                           equation.set(equation.size()-1, new Number(((Number)equation.get(equation.size()-1)).getValue().multiply(new BigDecimal(10)).subtract(val.getValue()) ));
+                       }
 
                    }
                    //Decimal but needs to be declared as a decimal
@@ -235,7 +242,10 @@ class Equation extends EquationPart implements Serializable {
 
                        if(val.getValue().intValue() != 0) {
                            BigDecimal dec = decimalGenerator(decimalCount, val.getValue());
+                           if(((Number)equation.get(equation.size()-1)).getValue().doubleValue() > 0)
                            equation.set(equation.size() - 1, new Number(((Number) equation.get(equation.size() - 1)).getValue().add(dec)));
+                           else
+                               equation.set(equation.size() - 1, new Number(((Number) equation.get(equation.size() - 1)).getValue().subtract(dec)));
                        }
                        else{
                            equation.get(equation.size()-1).setDisplayItem(equation.get(equation.size()-1).getDisplayItem());
@@ -247,7 +257,11 @@ class Equation extends EquationPart implements Serializable {
 
                        if(val.getValue().intValue() != 0) {
                            BigDecimal dec = decimalGenerator(decimalCount, val.getValue());
+
+                           if(((Number)equation.get(equation.size()-1)).getValue().doubleValue() > 0)
                            equation.set(equation.size() - 1, new Number(((Number) equation.get(equation.size() - 1)).getValue().add(dec)));
+                           else
+                               equation.set(equation.size() - 1, new Number(((Number) equation.get(equation.size() - 1)).getValue().subtract(dec)));
                        }else{
                            equation.get(equation.size()-1).setDisplayItem(equation.get(equation.size()-1).getDisplayItem()+"0");
                        }
@@ -277,6 +291,7 @@ class Equation extends EquationPart implements Serializable {
                            ((StartParenthesis) equation.get(equation.size() - 1)).setDisplayItem(((StartParenthesis) equation.get(equation.size() - 1)).getDisplayItem());
                        }
                   }
+
                }
 
                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
