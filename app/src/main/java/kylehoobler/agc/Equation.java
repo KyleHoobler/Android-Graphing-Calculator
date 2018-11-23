@@ -414,15 +414,15 @@ class Equation extends EquationPart implements Serializable {
                   //Parenthesis Check
                   if(equation.get(equation.size()-1).getClass() == StartParenthesis.class){
 
+                      ((StartParenthesis)equation.get(equation.size()-1)).eq.addItem(e);
 
-                          ((StartParenthesis) equation.get(equation.size() - 1)).getEq().addItem(e);
-                          ((StartParenthesis) equation.get(equation.size() - 1)).setDisplayItem(((StartParenthesis) equation.get(equation.size() - 1)).getDisplayItem());
                   }
                   else{
-
-                          equation.add(e);
-
+                      if(equation.get(equation.size()-1).getClass() != Operation.class && !equation.isEmpty())
+                      equation.add(e);
                   }
+
+
                }
 
               ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -449,7 +449,7 @@ class Equation extends EquationPart implements Serializable {
 
               else if(e.getClass() == Variable.class){
 
-                  if(equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == Variable.class || equation.get(equation.size()-1).getClass() == FactorialOperation.class){
+                  if(equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == Variable.class || equation.get(equation.size()-1).getClass() == FactorialOperation.class || equation.get(equation.size()-1).getClass() == EndParenthesis.class){
 
                       equation.add(new Operation(MULT));
                       equation.add(e);
@@ -503,10 +503,11 @@ class Equation extends EquationPart implements Serializable {
     protected void deleteItem(){
         if(equation.get(equation.size()-1).getClass() == StartParenthesis.class){
 
-            if(!((StartParenthesis)equation.get(equation.size()-1)).getEq().isEmpty())
-                ((StartParenthesis)equation.get(equation.size()-1)).getEq().deleteItem();
+            if(!((StartParenthesis)equation.get(equation.size()-1)).getEq().isEmpty()) {
+                ((StartParenthesis) equation.get(equation.size() - 1)).getEq().deleteItem();
 
-            else{
+            } else{
+
                 equation.remove(equation.size()-1);
 
                 if(!equation.isEmpty()){
@@ -517,7 +518,27 @@ class Equation extends EquationPart implements Serializable {
             }
         }
         else{
-            equation.remove(equation.size()-1);
+
+            if(equation.get(equation.size()-1).getClass() != Number.class) {
+                equation.remove(equation.size() - 1);
+            }
+            else{
+
+                Number tmp = (Number)equation.get(equation.size()-1);
+
+                if(tmp.getValue().doubleValue() == tmp.getValue().intValue()){
+                    if(tmp.getValue().intValue() < 10){
+                        equation.remove(equation.size()-1);
+                        return;
+                    }
+                }
+
+                String value = tmp.getValue().toPlainString();
+                value = value.substring(0, value.length()-1);
+
+                equation.set(equation.size()-1, new Number(new BigDecimal(value)));
+
+            }
         }
 
     }
@@ -615,6 +636,10 @@ class Equation extends EquationPart implements Serializable {
         }
 
         return x;
+    }
+
+    protected void addThis(EquationPart e){
+        equation.add(e);
     }
 
     protected boolean hasEndParen(){

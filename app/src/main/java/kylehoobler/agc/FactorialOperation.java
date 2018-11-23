@@ -28,7 +28,8 @@ class FactorialOperation extends EquationPart implements java.io.Serializable{
     }
 
     protected Number getFactorial(Number x){
-        if(x.getValue().intValue() > 20000)
+        //Settled on 75 because the calculator can handle more but it is impractical
+        if(x.getValue().intValue() > 75)
             return null;
 
         return new Number(factorial(x.getValue()));

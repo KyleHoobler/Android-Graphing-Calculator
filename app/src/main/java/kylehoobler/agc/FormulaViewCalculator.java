@@ -10,6 +10,7 @@ import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -391,9 +392,16 @@ public class FormulaViewCalculator extends AppCompatActivity {
         var.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.addItem(new Variable());
-                updateTextView();
-                text.setSelection(text.getText().length());
+
+                if(equation.numVars(0) < 13) {
+                    equation.addItem(new Variable());
+                    updateTextView();
+                    text.setSelection(text.getText().length());
+
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Too many variables entered.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

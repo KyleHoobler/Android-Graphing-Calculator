@@ -9,7 +9,7 @@ public class StartParenthesis extends EquationPart implements java.io.Serializab
     /*
      * This is the Equation that is contained in this object
      */
-    private Equation eq;
+    protected Equation eq;
 
 
     protected StartParenthesis(){
@@ -58,13 +58,16 @@ public class StartParenthesis extends EquationPart implements java.io.Serializab
      * @return if eq has end paren
      */
     protected boolean hasEndParen(){
+            if(eq.isEmpty())
+                return false;
 
-        for(int i = 0; i < eq.size(); i++){
-            if(eq.get(i).getClass() == EndParenthesis.class)
-                return true;
-        }
-        return false;
+            return eq.get(eq.size()-1).getClass() == EndParenthesis.class;
+
+
     }
+
+
+
 
     /**
      * This class will solve the equation that is presented in the startParenthesis object

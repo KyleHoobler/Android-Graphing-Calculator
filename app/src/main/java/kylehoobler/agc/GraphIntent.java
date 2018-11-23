@@ -241,11 +241,7 @@ public class GraphIntent extends AppCompatActivity {
             curr = item;
             this.color = 0;
 
-
-
             this.context = context;
-
-
 
 
             enabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -254,6 +250,7 @@ public class GraphIntent extends AppCompatActivity {
                     plotEQ();
                 }
             });
+
 
         }
 
@@ -271,6 +268,11 @@ public class GraphIntent extends AppCompatActivity {
 
             }
             return new Equation();
+        }
+
+        protected void removeEQ(){
+            colorItem.setBackgroundColor(Color.TRANSPARENT);
+            graph.removeSeries(series);
         }
 
         protected void plotEQ(){
@@ -311,12 +313,10 @@ public class GraphIntent extends AppCompatActivity {
 
                     }
                     else{
-                        colorItem.setBackgroundColor(Color.TRANSPARENT);
-                        graph.removeSeries(series);
+                        removeEQ();
 
                     }
-
-        }
+            }
     }
 
 
