@@ -143,6 +143,7 @@
             android:fontFamily="@font/open_sans"
             android:gravity="bottom|right"
             android:inputType="none"
+            android:longClickable="false"
             android:maxLines="1"
             android:overScrollMode="ifContentScrolls"
             android:paddingBottom="5dp"
@@ -166,22 +167,22 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="horizontal"
         android:background="@color/Gray"
-        app:layout_constraintBottom_toTopOf="@id/ScrollView"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/TextScroll">
+        app:layout_constraintTop_toBottomOf="@+id/guideline">
 
         <Button
             android:id="@+id/Clear"
-            android:theme="@style/ClearButtons"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="@font/open_sans"
             android:text="@string/Clear"
             android:textColor="@android:color/white"
+            android:theme="@style/ClearButtons"
             app:layout_constraintBottom_toTopOf="@+id/guideline6"
             app:layout_constraintEnd_toStartOf="@+id/Back"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
@@ -190,13 +191,13 @@
 
         <Button
             android:id="@+id/Back"
-            android:theme="@style/ClearButtons"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="@font/open_sans"
             android:text="@string/del"
             android:textColor="@android:color/white"
+            android:theme="@style/ClearButtons"
             app:layout_constraintBottom_toTopOf="@+id/guideline6"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
             app:layout_constraintHorizontal_bias="1.0"
@@ -426,9 +427,8 @@
                     android:id="@+id/E"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textAllCaps="false"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/e"
                     android:textColor="@color/offWhite"
                     android:textSize="18sp"

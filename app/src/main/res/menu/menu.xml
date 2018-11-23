@@ -4,24 +4,27 @@
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/graphMenu"
+        android:orderInCategory="350"
+        android:title="@string/graph" />
+    <item
         android:id="@+id/addItem"
         android:contentDescription="Add a new Item"
         android:orderInCategory="300"
         android:title="Add"
         app:showAsAction="always" />
-
-    <item
-        android:id="@+id/calcMenu"
-        android:orderInCategory="0"
-        android:title="Calculator" />
-    <item
-        android:id="@+id/graphMenu"
-        android:orderInCategory="350"
-        android:title="Graph" />
-
     <item
         android:id="@+id/equationMenu"
         android:orderInCategory="1"
-        android:title="Formulas" />
+        android:title="@string/formulas" />
+    <item
+        android:id="@+id/calcMenu"
+        android:orderInCategory="0"
+        android:title="@string/calculator" />
+
+    <item
+        android:id="@+id/about"
+        android:orderInCategory="351"
+        android:title="@string/about" />
 
 </menu>

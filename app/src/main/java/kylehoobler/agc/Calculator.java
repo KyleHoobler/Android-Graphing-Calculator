@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
+import android.view.ActionMode;
 import android.view.Display;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +20,7 @@ import android.widget.PopupMenu;
 
 import java.util.ArrayList;
 
+import javax.security.auth.callback.Callback;
 
 
 public class Calculator extends AppCompatActivity {
@@ -53,6 +56,11 @@ public class Calculator extends AppCompatActivity {
 
     }
 
+    protected void initAboutPage(){
+        Intent gr = new Intent(this, AboutProject.class);
+        this.startActivity(gr);
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void initCalcView(){
@@ -61,6 +69,8 @@ public class Calculator extends AppCompatActivity {
         final ImageButton menuButton = findViewById(R.id.menuButton);
         text = (EditText) findViewById(R.id.DisplayNum);
         text.setFocusable(false);
+        text.setLongClickable(false);
+
 
 
 
@@ -84,6 +94,9 @@ public class Calculator extends AppCompatActivity {
                         }
                         else if(item.getTitle().equals("Graph")){
                             initGraphPage();
+                        }
+                        else if(item.getTitle().equals("About")){
+                            initAboutPage();
                         }
 
                         return false;
@@ -154,7 +167,7 @@ public class Calculator extends AppCompatActivity {
             public void onClick(View view) {
                 equation.clearEQ();
                 text.setText(null);
-                text.setTextSize(60);
+                text.setTextSize(55);
                 text.setMovementMethod(new ScrollingMovementMethod());
                 text.setHorizontallyScrolling(true);
 
@@ -464,10 +477,15 @@ public class Calculator extends AppCompatActivity {
             case "Formulas":
                 initFormulaPage();
                 return true;
+            case "About":
+                initAboutPage();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 
 
         @Override
@@ -495,17 +513,13 @@ public class Calculator extends AppCompatActivity {
 
                 if(equation.get(i) == null){
                     equation.clearEQ();
-                    text.setText("Invalid Expression entered.");
+                    equation.addThis(new ErrorItem());
 
                     return;
                 }
                 //Handles Number representation
-                if (equation.get(i).getClass() == Number.class) {
-                    if(equation.decimalCount == 0)
+                if (equation.get(i).getClass() == Number.class && equation.decimalCount == 0) {
                         text.setText(text.getText() + "" + ((Number) equation.get(i)).getValue().stripTrailingZeros().toPlainString());
-                    else
-                        text.setText(text.getText() + "" + ((Number) equation.get(i)).getDisplayItem());
-
                 }
                 else
                     text.setText(text.getText() + equation.get(i).getDisplayItem());
@@ -529,6 +543,8 @@ public class Calculator extends AppCompatActivity {
                 case 24:
                     text.setTextSize(35);
                     break;
+                case 36:
+                    text.setTextSize(30);
 
             }
         }
@@ -538,7 +554,6 @@ public class Calculator extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         // Make sure to call the super method so that the states of our views are saved
         super.onSaveInstanceState(outState);
-        // Save our own state now
         outState.putSerializable("eq", equation.getEquation());
     }
 

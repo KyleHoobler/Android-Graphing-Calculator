@@ -10,6 +10,9 @@
 
     <item
         android:id="@+id/Graph_Menu"
-        android:title="Graph"/>
+        android:title="Graph"></item>
+    <item
+        android:id="@+id/About"
+        android:title="@string/about" />
 
 </menu>

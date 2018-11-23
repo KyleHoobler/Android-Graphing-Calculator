@@ -37,4 +37,10 @@
     <string name="e">e</string>
     <string name="error">Error</string>
     <string name="delete">Delete</string>
+    <string name="ProjectSum">This is a free application deleveoped by Kyle Hoobler. This project was created for my CPSC 498 Captsone at CNU. This product\'s functionality was finished in November of 2018.</string>
+    <string name="agc">AGC</string>
+    <string name="calculator">Calculator</string>
+    <string name="graph">Graph</string>
+    <string name="formulas">Formulas</string>
+    <string name="about">About</string>
 </resources>

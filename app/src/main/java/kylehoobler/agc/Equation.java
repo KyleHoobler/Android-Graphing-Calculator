@@ -186,6 +186,16 @@ class Equation extends EquationPart implements Serializable {
                 }
             }
         }
+
+
+        if(((Number)equation.get(0)).getValue().doubleValue() != ((Number)equation.get(0)).getValue().intValue()) {
+            isDecimal = true;
+            String x = ((Number) equation.get(0)).getValue().doubleValue()+"";
+            int index = x.indexOf(".");
+
+            decimalCount = index < 0 ? 0 : x.length() - index - 1;
+        }
+
     }
     catch(Exception e){
         clearEQ();
