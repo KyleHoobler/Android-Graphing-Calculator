@@ -3,6 +3,7 @@ package kylehoobler.agc;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -57,6 +58,7 @@ public class GraphIntent extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_graph);
         Toolbar myToolBar = findViewById(R.id.GraphBar);
         setSupportActionBar(myToolBar);

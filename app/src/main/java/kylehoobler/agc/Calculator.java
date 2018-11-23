@@ -60,6 +60,7 @@ public class Calculator extends AppCompatActivity {
 
         final ImageButton menuButton = findViewById(R.id.menuButton);
         text = (EditText) findViewById(R.id.DisplayNum);
+        text.setFocusable(false);
 
 
 

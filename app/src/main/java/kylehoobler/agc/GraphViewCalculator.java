@@ -3,6 +3,7 @@ package kylehoobler.agc;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
@@ -31,6 +32,7 @@ public class GraphViewCalculator extends AppCompatActivity {
 
         this.setContentView(R.layout.activity_formula_calculator);
         text = (EditText)findViewById(R.id.DisplayNum);
+        text.setFocusable(false);
         equation = new Equation();
 
         initCalculator();
@@ -44,6 +46,11 @@ public class GraphViewCalculator extends AppCompatActivity {
 
         super.onSaveInstanceState(outState);
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     protected void exit() {

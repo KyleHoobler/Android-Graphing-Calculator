@@ -33,6 +33,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
 
         this.setContentView(R.layout.activity_formula_calculator);
         text = (EditText)findViewById(R.id.DisplayNum);
+        text.setFocusable(false);
         equation = new Equation();
 
         initCalculator();

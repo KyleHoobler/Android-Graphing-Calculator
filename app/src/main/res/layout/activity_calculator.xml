@@ -207,10 +207,10 @@
 
     <HorizontalScrollView
 
-        android:background="@color/SkyBlue"
         android:id="@+id/ScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@color/SkyBlue"
 
         android:orientation="horizontal"
         android:scrollbarStyle="insideOverlay"
@@ -233,15 +233,15 @@
                 android:layout_weight="1">
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/Seven"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/_7"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
                     android:id="@+id/Eight"
@@ -255,48 +255,48 @@
                     android:theme="@style/PrimaryButton" />
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/Nine"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/_9"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/Sine"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/sin"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/cosine"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/cos"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/tangent"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/tan"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
             </TableRow>
 
@@ -306,70 +306,70 @@
                 android:layout_weight="1">
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/Four"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/_4"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/Five"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/_5"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/Six"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/_6"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/NaturalLog"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/ln"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/Log"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/log"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/factorial"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/factorial"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
             </TableRow>
 
@@ -379,70 +379,71 @@
                 android:layout_weight="1">
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/One"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/_1"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/Two"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/_2"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/Three"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/_3"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/PI"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/pi"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
                     android:id="@+id/E"
-                    android:theme="@style/PrimaryButton"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:textAllCaps="false"
 
                     android:fontFamily="@font/open_sans"
                     android:text="@string/e"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/Power"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/power"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
             </TableRow>
 
@@ -452,26 +453,26 @@
                 android:layout_weight="1">
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/negate"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/negate"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/Zero"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/_0"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
                     android:id="@+id/Decimal"
@@ -486,37 +487,37 @@
                     android:visibility="visible" />
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/LeftParen"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/startParen"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/RightParen"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/endParen"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
                 <Button
-                    android:theme="@style/PrimaryButton"
                     android:id="@+id/SquareRoot"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-
                     android:fontFamily="@font/open_sans"
+
                     android:text="@string/sqrt"
                     android:textColor="@color/offWhite"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:theme="@style/PrimaryButton" />
 
             </TableRow>
         </TableLayout>

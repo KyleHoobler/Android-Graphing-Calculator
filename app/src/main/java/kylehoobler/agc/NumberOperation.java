@@ -1,5 +1,7 @@
 package kylehoobler.agc;
 
+import android.util.Log;
+
 import java.math.BigDecimal;
 
 /*

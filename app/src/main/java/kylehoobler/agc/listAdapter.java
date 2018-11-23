@@ -163,7 +163,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
             layout.addView(okay);
 
 
-            final AlertDialog dialog = new AlertDialog.Builder(context).setTitle("Enter Variables").setView(layout).show();
+            final AlertDialog dialog = new AlertDialog.Builder(context).setTitle("Enter Variables").setMessage(mData.get(getAdapterPosition()).getDisplayItem()).setView(layout).show();
 
 
             okay.setOnClickListener(new View.OnClickListener() {
@@ -173,21 +173,26 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
 
                     Equation vTemp = mData.get(getAdapterPosition()).clone();
 
+                    try {
                         for (EditText e : variableInput) {
                             Number num = new Number(1.0);
+
 
                             if (!e.getText().toString().equals(""))
                                 num = new Number(new BigDecimal(e.getText().toString()));
 
+
                             vTemp.replaceVariable(num);
                         }
-
 
 
                         displayAnswer(vTemp);
                         dialog.cancel();
                         variableInput.clear();
 
+                    } catch (Exception e) {
+                        ErrorThrow("Invalid argument entered.");
+                    }
                 }
             });
 
@@ -214,15 +219,19 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
 
             }
             catch (Exception m){
-                final AlertDialog dialog = new AlertDialog.Builder(context).setTitle("Error").setMessage("An error has occured.").setCancelable(true).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                }).show();
+              ErrorThrow("An Error has occurred.");
             }
 
 
 
+        }
+
+        protected void ErrorThrow(String message){
+            final AlertDialog dialog = new AlertDialog.Builder(context).setTitle("Error").setMessage(message).setCancelable(true).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.dismiss();
+                }
+            }).show();
         }
 
 
