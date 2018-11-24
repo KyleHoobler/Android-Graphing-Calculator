@@ -27,10 +27,12 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -71,6 +73,16 @@ public class GraphIntent extends AppCompatActivity {
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(-50);
         graph.getViewport().setMaxX(50);
+        graph.getGridLabelRenderer().setNumHorizontalLabels(12);
+        graph.getGridLabelRenderer().setNumVerticalLabels(12);
+        graph.getGridLabelRenderer().setTextSize(24);
+
+        graph.getGridLabelRenderer().setGridColor(Color.RED);
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMinimumFractionDigits(0);
+        nf.setMaximumFractionDigits(2);
+
+        graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(nf, nf));
 
 
 
