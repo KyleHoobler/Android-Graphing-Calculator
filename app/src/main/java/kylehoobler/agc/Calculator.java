@@ -351,9 +351,11 @@ public class Calculator extends AppCompatActivity {
         equals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equation.solve();
-                updateTextView();
-                text.setSelection(text.getText().length());
+                if(!equation.isEmpty()) {
+                    equation.solve();
+                    updateTextView();
+                    text.setSelection(text.getText().length());
+                }
             }
         });
 

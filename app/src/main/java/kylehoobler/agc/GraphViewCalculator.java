@@ -126,7 +126,7 @@ public class GraphViewCalculator extends AppCompatActivity {
 
         //Variable
         Button var = findViewById(R.id.variable);
-        save.setClickable(false);
+        disableSaveButton();
 
         text.setTextSize(60);
         text.setMovementMethod(new ScrollingMovementMethod());
@@ -528,16 +528,20 @@ public class GraphViewCalculator extends AppCompatActivity {
     }
 
     private void disableSaveButton(){
-        if(equation.size() > 0) {
+        if(!equation.isEmpty()) {
             if (equation.endsInOperation()) {
                 save.setAlpha(.5f);
-                save.setClickable(false);
+                save.setEnabled(false);
             }
             else {
-                save.setClickable(true);
+                save.setEnabled(true);
                 save.setAlpha(1);
             }
 
+        }
+        else{
+            save.setAlpha(.5f);
+            save.setEnabled(false);
         }
     }
 

@@ -127,7 +127,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
 
         //Variable
         Button var = findViewById(R.id.variable);
-        save.setClickable(false);
+        disableSaveButton();
 
         text.setTextSize(60);
         text.setMovementMethod(new ScrollingMovementMethod());
@@ -493,6 +493,8 @@ public class FormulaViewCalculator extends AppCompatActivity {
 
         if(text != null) {
 
+            disableSaveButton();
+
             text.setText("");
             for (int i = 0; i < equation.size(); i++) {
 
@@ -515,7 +517,6 @@ public class FormulaViewCalculator extends AppCompatActivity {
             }
 
 
-            disableSaveButton();
 
             switch (text.getText().length()) {
 
@@ -540,16 +541,20 @@ public class FormulaViewCalculator extends AppCompatActivity {
     }
 
     private void disableSaveButton(){
-        if(equation.size() > 0) {
+        if(!equation.isEmpty()) {
             if (equation.endsInOperation()) {
                 save.setAlpha(.5f);
-                save.setClickable(false);
+                save.setEnabled(false);
             }
             else {
-                save.setClickable(true);
+                save.setEnabled(true);
                 save.setAlpha(1);
             }
 
+        }
+        else{
+            save.setAlpha(.5f);
+            save.setEnabled(false);
         }
     }
 
