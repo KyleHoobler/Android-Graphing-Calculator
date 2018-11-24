@@ -11,7 +11,7 @@
         android:id="@+id/addItem"
         android:contentDescription="Add a new Item"
         android:orderInCategory="300"
-        android:title="Add"
+        android:title="@string/addItem"
         app:showAsAction="always" />
     <item
         android:id="@+id/equationMenu"

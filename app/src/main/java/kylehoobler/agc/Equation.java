@@ -218,13 +218,11 @@ class Equation extends EquationPart implements Serializable {
               if (e.getClass() == Number.class) {
                     Number val = (Number)e;
 
-
-
                     //Number not declared as a decimal
                    if(equation.get(equation.size()-1).getClass() == Number.class && !isDecimal){
                        //Complicated way to get the number and increment it's value
 
-                       if(((Number)equation.get(equation.size()-1)).getValue().doubleValue() > 0)
+                       if(((Number)equation.get(equation.size()-1)).getValue().doubleValue() >= 0)
                        equation.set(equation.size()-1, new Number(((Number)equation.get(equation.size()-1)).getValue().multiply(new BigDecimal(10)).add(val.getValue()) ));
                        else{
                            equation.set(equation.size()-1, new Number(((Number)equation.get(equation.size()-1)).getValue().multiply(new BigDecimal(10)).subtract(val.getValue()) ));
@@ -242,7 +240,7 @@ class Equation extends EquationPart implements Serializable {
 
                        if(val.getValue().intValue() != 0) {
                            BigDecimal dec = decimalGenerator(decimalCount, val.getValue());
-                           if(((Number)equation.get(equation.size()-1)).getValue().doubleValue() > 0)
+                           if(((Number)equation.get(equation.size()-1)).getValue().doubleValue() >= 0)
                            equation.set(equation.size() - 1, new Number(((Number) equation.get(equation.size() - 1)).getValue().add(dec)));
                            else
                                equation.set(equation.size() - 1, new Number(((Number) equation.get(equation.size() - 1)).getValue().subtract(dec)));
@@ -258,7 +256,7 @@ class Equation extends EquationPart implements Serializable {
                        if(val.getValue().intValue() != 0) {
                            BigDecimal dec = decimalGenerator(decimalCount, val.getValue());
 
-                           if(((Number)equation.get(equation.size()-1)).getValue().doubleValue() > 0)
+                           if(((Number)equation.get(equation.size()-1)).getValue().doubleValue() >= 0)
                            equation.set(equation.size() - 1, new Number(((Number) equation.get(equation.size() - 1)).getValue().add(dec)));
                            else
                                equation.set(equation.size() - 1, new Number(((Number) equation.get(equation.size() - 1)).getValue().subtract(dec)));
@@ -267,7 +265,7 @@ class Equation extends EquationPart implements Serializable {
                        }
                    }
 
-                   else if(equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == Variable.class){
+                   else if(equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == Variable.class || equation.get(equation.size()-1).getClass() == FactorialOperation.class){
 
                        equation.add(new Operation(MULT));
                        equation.add(e);
@@ -306,6 +304,11 @@ class Equation extends EquationPart implements Serializable {
                        equation.add(new Number(0.0));
                        equation.add(val);
                    }
+                   else if(equation.get(equation.size()-1).getClass() == FactorialOperation.class){
+                       equation.add(new Operation(MULT));
+                       equation.add(new Number(0.0));
+                       equation.add(e);
+                   }
                    else if(equation.get(equation.size()-1).getClass() == StartParenthesis.class){
                        if(((StartParenthesis)equation.get(equation.size()-1)).hasEndParen()){
                            equation.add(new Operation(MULT));
@@ -338,7 +341,7 @@ class Equation extends EquationPart implements Serializable {
 
                       }
 
-                      else if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == StartParenthesis.class || equation.get(equation.size()-1).getClass() == Variable.class){
+                      else if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == StartParenthesis.class || equation.get(equation.size()-1).getClass() == Variable.class || equation.get(equation.size()-1).getClass() == FactorialOperation.class){
                           equation.add(new Operation(MULT));
                           equation.add(e);
                       }
@@ -367,7 +370,7 @@ class Equation extends EquationPart implements Serializable {
                           }
 
                       }
-                      else if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == Variable.class){
+                      else if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == Variable.class || equation.get(equation.size()-1).getClass() == FactorialOperation.class){
                           equation.add(e);
                       }
 
@@ -391,7 +394,7 @@ class Equation extends EquationPart implements Serializable {
                               ((StartParenthesis) equation.get(equation.size() - 1)).getEq().addItem(e);
                           }
                       }
-                      else if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == Variable.class){
+                      else if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == Variable.class || equation.get(equation.size()-1).getClass() == FactorialOperation.class){
                           equation.add(new Operation(MULT));
                           equation.add(e);
                           equation.add(new StartParenthesis());
@@ -409,7 +412,7 @@ class Equation extends EquationPart implements Serializable {
                    isDecimal = false;
                    decimalCount = 0;
 
-                   if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class ||equation.get(equation.size()-1).getClass() == Variable.class){
+                   if(equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == SpecialNumber.class ||equation.get(equation.size()-1).getClass() == Variable.class || equation.get(equation.size()-1).getClass() == FactorialOperation.class){
                        equation.add(new Operation(MULT));
                        equation.add(e);
                    }
@@ -472,6 +475,8 @@ class Equation extends EquationPart implements Serializable {
                   }
               }
 
+              //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
               else if(e.getClass() == Variable.class){
 
                   if(equation.get(equation.size()-1).getClass() == SpecialNumber.class || equation.get(equation.size()-1).getClass() == Number.class || equation.get(equation.size()-1).getClass() == Variable.class || equation.get(equation.size()-1).getClass() == FactorialOperation.class || equation.get(equation.size()-1).getClass() == EndParenthesis.class){
@@ -500,8 +505,10 @@ class Equation extends EquationPart implements Serializable {
 
               }
        }
+
+       //If the equation is empty
        else{
-           if(e.getClass() == Number.class || e.getClass() == StartParenthesis.class || e.getClass() == SpecialNumber.class || e.getClass() == Variable.class){
+           if(e.getClass() == Number.class || e.getClass() == StartParenthesis.class || e.getClass() == SpecialNumber.class || e.getClass() == Variable.class ){
                equation.add(e);
 
                if(e.getClass() == StartParenthesis.class){
