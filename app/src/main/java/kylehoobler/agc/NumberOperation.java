@@ -62,13 +62,13 @@ public class NumberOperation extends EquationPart implements java.io.Serializabl
                     tmp = new Number(tmp.getValue().multiply(new BigDecimal(-1)));
                     break;
                 case SIN:
-                    tmp = new Number(new BigDecimal(Math.sin(tmp.getValue().doubleValue())).setScale(decimalLength, BigDecimal.ROUND_DOWN).stripTrailingZeros());
+                    tmp = new Number(new BigDecimal(Math.sin(Math.toRadians(tmp.getValue().doubleValue()))).setScale(decimalLength, BigDecimal.ROUND_DOWN).stripTrailingZeros());
                     break;
                 case COS:
-                    tmp = new Number(new BigDecimal(Math.cos(tmp.getValue().doubleValue())).setScale(decimalLength, BigDecimal.ROUND_DOWN).stripTrailingZeros());
+                    tmp = new Number(new BigDecimal(Math.cos(Math.toRadians(tmp.getValue().doubleValue()))).setScale(decimalLength, BigDecimal.ROUND_DOWN).stripTrailingZeros());
                     break;
                 case TAN:
-                    tmp = new Number(new BigDecimal(Math.tan(tmp.getValue().doubleValue())).setScale(decimalLength, BigDecimal.ROUND_DOWN).stripTrailingZeros());
+                    tmp = new Number(new BigDecimal(Math.tan(Math.toRadians(tmp.getValue().doubleValue()))).setScale(decimalLength, BigDecimal.ROUND_DOWN).stripTrailingZeros());
                     break;
                 case SQRT:
                     tmp = new Number(new BigDecimal(Math.sqrt(tmp.getValue().doubleValue())).setScale(decimalLength, BigDecimal.ROUND_DOWN).stripTrailingZeros());

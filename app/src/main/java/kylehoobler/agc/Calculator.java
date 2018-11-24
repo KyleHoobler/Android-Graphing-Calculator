@@ -496,6 +496,10 @@ public class Calculator extends AppCompatActivity {
 
             if(savedInstanceState != null){
                 equation.setEquation((ArrayList)savedInstanceState.get("eq"));
+                equation.decimalCount = (int)savedInstanceState.get("decCount");
+                if(equation.decimalCount > 0)
+                    equation.setIsDecimal(true);
+
                 updateTextView();
             }
 
@@ -555,6 +559,7 @@ public class Calculator extends AppCompatActivity {
         // Make sure to call the super method so that the states of our views are saved
         super.onSaveInstanceState(outState);
         outState.putSerializable("eq", equation.getEquation());
+        outState.putSerializable("decCount", equation.decimalCount);
     }
 
 

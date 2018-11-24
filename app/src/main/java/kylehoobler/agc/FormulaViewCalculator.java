@@ -36,6 +36,14 @@ public class FormulaViewCalculator extends AppCompatActivity {
         text.setFocusable(false);
         equation = new Equation();
 
+        if(savedInstanceState != null){
+            equation.setEquation(((ArrayList)savedInstanceState.get("eq")));
+            equation.decimalCount = (int)savedInstanceState.get("decCount");
+            if(equation.decimalCount > 0)
+                equation.setIsDecimal(true);
+
+        }
+
         initCalculator();
 
     }
@@ -46,6 +54,8 @@ public class FormulaViewCalculator extends AppCompatActivity {
         outState.putSerializable(EQUATION, equation.getEquation());
 
         super.onSaveInstanceState(outState);
+        outState.putSerializable("eq", equation.getEquation());
+        outState.putSerializable("decCount", equation.decimalCount);
 
     }
 

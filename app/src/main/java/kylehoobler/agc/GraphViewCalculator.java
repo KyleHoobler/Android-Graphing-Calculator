@@ -35,6 +35,14 @@ public class GraphViewCalculator extends AppCompatActivity {
         text.setFocusable(false);
         equation = new Equation();
 
+        if(savedInstanceState != null){
+            equation.setEquation(((ArrayList)savedInstanceState.get("eq")));
+            equation.decimalCount = (int)savedInstanceState.get("decCount");
+            if(equation.decimalCount > 0)
+                equation.setIsDecimal(true);
+
+        }
+
         initCalculator();
 
     }
@@ -43,6 +51,8 @@ public class GraphViewCalculator extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
 
         outState.putSerializable(EQUATION, equation.getEquation());
+        outState.putSerializable("eq", equation.getEquation());
+        outState.putSerializable("decCount", equation.decimalCount);
 
         super.onSaveInstanceState(outState);
 
