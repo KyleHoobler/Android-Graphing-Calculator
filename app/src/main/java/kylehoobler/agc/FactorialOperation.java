@@ -21,8 +21,11 @@ class FactorialOperation extends EquationPart implements java.io.Serializable{
 
             if (value.intValue() > 0)
                 return value.multiply(factorial(value.subtract(new BigDecimal(1))));
-            else
+            else if(value.intValue() == 0)
                 return new BigDecimal(1);
+            else{
+                return value.multiply(factorial(value.add(new BigDecimal(1))));
+            }
 
 
     }

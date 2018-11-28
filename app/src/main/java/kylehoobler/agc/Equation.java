@@ -1,13 +1,7 @@
 package kylehoobler.agc;
 
 import android.support.annotation.NonNull;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.util.Pair;
-import android.widget.EditText;
-import android.widget.Switch;
-import android.widget.TextView;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;

@@ -171,9 +171,9 @@ public class GraphIntent extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull final GraphHolder graphHolder, final int i) {
-            graphHolder.textView.setText(graphHolder.getItem(i).getDisplayItem());
-            graphHolder.colorItem.setBackgroundColor(graphHolder.getColor());
-            graphHolder.enabled.setChecked(false);
+            graphHolder.textView.setText(graphHolder.getItem(i).getEq().getDisplayItem());
+            graphHolder.colorItem.setBackgroundColor(graphHolder.getItem(i).getColor());
+            graphHolder.enabled.setChecked(graphHolder.getItem(i).isSelected());
 
             graphHolder.options.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -265,6 +265,7 @@ public class GraphIntent extends AppCompatActivity {
             enabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    //enabled.setChecked(b);
                     plotEQ();
                 }
             });
@@ -277,15 +278,10 @@ public class GraphIntent extends AppCompatActivity {
         }
 
 
-        protected Equation getItem(int i){
+        protected graphingObject getItem(int i){
 
-            try {
-                return (Equation)equations.get(i);
-            }
-            catch(Exception e){
+                return new graphingObject(equations.get(i), enabled.isChecked(), color);
 
-            }
-            return new Equation();
         }
 
         protected void removeEQ(){
@@ -296,45 +292,45 @@ public class GraphIntent extends AppCompatActivity {
         protected void plotEQ(){
 
 
-                    if(enabled.isChecked()) {
-                        DataPoint[] values = new DataPoint[100];
+            if(enabled.isChecked()) {
+                DataPoint[] values = new DataPoint[100];
 
 
-                            for (int i = -50; i < values.length-50; i++) {
+                for (int i = -50; i < values.length-50; i++) {
 
-                                Equation tmp = equations.get(getAdapterPosition()).clone();
-                                tmp.replaceAllVariables(i);
+                    Equation tmp = equations.get(getAdapterPosition()).clone();
+                    tmp.replaceAllVariables(i);
 
-                                try {
-                                    tmp.solve();
+                    try {
+                        tmp.solve();
 
-                                    values[i + 50] = new DataPoint(i, ((Number) tmp.get(0)).getValue().doubleValue());
-
-                                }
-                                catch (Exception e){
-                                   values[i+50] = new DataPoint(i, 0);
-                                }
-
-                        }
-
-                        series = new LineGraphSeries(values);
-
-                        Random rnd = new Random();
-                         this.color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-
-
-                        series.setColor(color);
-                        colorItem.setBackgroundColor(color);
-
-                        graph.addSeries(series);
-
+                        values[i + 50] = new DataPoint(i, ((Number) tmp.get(0)).getValue().doubleValue());
 
                     }
-                    else{
-                        removeEQ();
-
+                    catch (Exception e){
+                        values[i+50] = new DataPoint(i, 0);
                     }
+
+                }
+
+                series = new LineGraphSeries(values);
+
+                Random rnd = new Random();
+                this.color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+
+
+                series.setColor(color);
+                colorItem.setBackgroundColor(color);
+
+                graph.addSeries(series);
+
+
             }
+            else{
+                removeEQ();
+
+            }
+        }
     }
 
 

@@ -1,6 +1,5 @@
 package kylehoobler.agc;
 
-import android.widget.TextView;
 
 /**
  * Super class with priority system
@@ -86,22 +85,5 @@ class EquationPart implements java.io.Serializable{
         }
         return false;
     }
-
-    protected boolean subtractPriority(int i){
-
-        if(this.getPriority() - i < 0){
-            this.setPriority(0);
-
-            //Return false if value goes negative this would be an error of some sort
-            return false;
-        }
-        else
-            this.setPriority(this.getPriority() - i);
-
-        return true;
-    }
-
-
-
 
 }
