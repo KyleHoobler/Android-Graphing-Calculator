@@ -160,6 +160,8 @@ public class GraphIntent extends AppCompatActivity {
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public class GraphAdapter extends RecyclerView.Adapter<GraphHolder>{
 
 
@@ -205,7 +207,7 @@ public class GraphIntent extends AppCompatActivity {
 
                                     notifyDataSetChanged();
 
-                                    graph.removeAllSeries();
+                                    updateGraph();
 
                                     SharedPreferences.Editor prefs = context.getSharedPreferences(GRAPHLIST, MODE_PRIVATE).edit();
                                     Gson conv = new Gson();
@@ -237,16 +239,14 @@ public class GraphIntent extends AppCompatActivity {
 
         }
 
-
-
         @Override
         public int getItemCount() {
             return equations.size();
         }
 
-
-
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public class GraphHolder extends RecyclerView.ViewHolder{
 
