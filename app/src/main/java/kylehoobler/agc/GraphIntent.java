@@ -187,7 +187,7 @@ public class GraphIntent extends AppCompatActivity {
             graphHolder.textView.setText(graphHolder.getItem(i).getEq().getDisplayItem());
             graphHolder.colorItem.setBackgroundColor(graphHolder.getItem(i).getColor());
             graphHolder.enabled.setChecked(graphHolder.getItem(i).isSelected());
-            graphHolder.setIsRecyclable(false);
+            //graphHolder.setIsRecyclable(false);
 
             graphHolder.options.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -265,7 +265,7 @@ public class GraphIntent extends AppCompatActivity {
             this.options = itemView.findViewById(R.id.rowOptions);
             this.enabled= itemView.findViewById(R.id.checkbox);
             this.colorItem = itemView.findViewById(R.id.color);
-            this.setIsRecyclable(false);
+            //this.setIsRecyclable(false);
             this.context = context;
 
 
