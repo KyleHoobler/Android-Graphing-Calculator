@@ -13,6 +13,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,7 +45,7 @@ public class GraphIntent extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private GraphAdapter adapter;
-    private ArrayList<Equation> equations;
+    private ArrayList<graphingObject> equations;
     protected SharedPreferences sharedPreference;
     public final String GRAPHLIST = "GraphEquations";
     protected GraphView graph;
@@ -87,7 +88,7 @@ public class GraphIntent extends AppCompatActivity {
 
 
         recyclerView = findViewById(R.id.graphList);
-        equations = new ArrayList<Equation>();
+        equations = new ArrayList<graphingObject>();
 
         ArrayList<String> items = new ArrayList<>();
 
@@ -100,7 +101,7 @@ public class GraphIntent extends AppCompatActivity {
             Gson gson = new Gson();
             items = gson.fromJson(tmp, ArrayList.class);
             for(String x : items){
-                equations.add(new SaveBuilder().convertToEquation(x));
+                equations.add(new graphingObject(new SaveBuilder().convertToEquation(x), false, Color.TRANSPARENT));
             }
         }
 
@@ -117,6 +118,16 @@ public class GraphIntent extends AppCompatActivity {
 
         recyclerView.setNestedScrollingEnabled(false);
 
+
+
+    }
+
+    private void updateGraph(){
+        graph.removeAllSeries();
+        for (int k = 0; k < equations.size(); k++){
+            if(equations.get(k).isSelected())
+                graph.addSeries(equations.get(k).getLineGraphSeriess());
+        }
     }
 
 
@@ -166,7 +177,7 @@ public class GraphIntent extends AppCompatActivity {
         @Override
         public GraphHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             View view = mInflater.inflate(R.layout.graph_recycler_row, viewGroup, false);
-            return new GraphHolder(view, this.context, this);
+            return new GraphHolder(view, this.context, i);
         }
 
         @Override
@@ -174,6 +185,7 @@ public class GraphIntent extends AppCompatActivity {
             graphHolder.textView.setText(graphHolder.getItem(i).getEq().getDisplayItem());
             graphHolder.colorItem.setBackgroundColor(graphHolder.getItem(i).getColor());
             graphHolder.enabled.setChecked(graphHolder.getItem(i).isSelected());
+            graphHolder.setIsRecyclable(false);
 
             graphHolder.options.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -195,15 +207,13 @@ public class GraphIntent extends AppCompatActivity {
 
                                     graph.removeAllSeries();
 
-
-
                                     SharedPreferences.Editor prefs = context.getSharedPreferences(GRAPHLIST, MODE_PRIVATE).edit();
                                     Gson conv = new Gson();
 
                                     ArrayList<String> vals = new ArrayList<>();
 
                                     for(int i = 0; i < equations.size(); i++){
-                                        vals.add(new SaveBuilder().convertToString(equations.get(i)));
+                                        vals.add(new SaveBuilder().convertToString(equations.get(i).getEq()));
                                     }
 
                                     String val = conv.toJson(vals, ArrayList.class);
@@ -246,19 +256,16 @@ public class GraphIntent extends AppCompatActivity {
         public LineGraphSeries series;
         private ImageView colorItem;
         private Context context;
-        private GraphAdapter curr;
         private int color;
 
 
-        public GraphHolder(@NonNull View itemView, final Context context, GraphAdapter item) {
+        public GraphHolder(@NonNull View itemView, final Context context, int i) {
             super(itemView);
             this.textView = itemView.findViewById(R.id.equation_row);
             this.options = itemView.findViewById(R.id.rowOptions);
             this.enabled= itemView.findViewById(R.id.checkbox);
             this.colorItem = itemView.findViewById(R.id.color);
-            curr = item;
-            this.color = 0;
-
+            this.setIsRecyclable(false);
             this.context = context;
 
 
@@ -266,7 +273,10 @@ public class GraphIntent extends AppCompatActivity {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     //enabled.setChecked(b);
+                    equations.get(getAdapterPosition()).setSelected(b);
                     plotEQ();
+
+                    updateGraph();
                 }
             });
 
@@ -280,25 +290,26 @@ public class GraphIntent extends AppCompatActivity {
 
         protected graphingObject getItem(int i){
 
-                return new graphingObject(equations.get(i), enabled.isChecked(), color);
+                return new graphingObject(equations.get(i).getEq(), equations.get(i).isSelected(), equations.get(i).getColor());
 
         }
 
         protected void removeEQ(){
+            equations.get(getAdapterPosition()).setColor(Color.TRANSPARENT);
             colorItem.setBackgroundColor(Color.TRANSPARENT);
-            graph.removeSeries(series);
+            graph.removeSeries(equations.get(getAdapterPosition()).getLineGraphSeriess());
         }
 
         protected void plotEQ(){
 
 
-            if(enabled.isChecked()) {
+            if(equations.get(getAdapterPosition()).isSelected()) {
                 DataPoint[] values = new DataPoint[100];
 
 
                 for (int i = -50; i < values.length-50; i++) {
 
-                    Equation tmp = equations.get(getAdapterPosition()).clone();
+                    Equation tmp = equations.get(getAdapterPosition()).getEq().clone();
                     tmp.replaceAllVariables(i);
 
                     try {
@@ -316,13 +327,19 @@ public class GraphIntent extends AppCompatActivity {
                 series = new LineGraphSeries(values);
 
                 Random rnd = new Random();
-                this.color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+
+                if(equations.get(getAdapterPosition()).getColor() == Color.TRANSPARENT) {
+                    int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+                    equations.get(getAdapterPosition()).setColor(color);
+
+                }
 
 
-                series.setColor(color);
-                colorItem.setBackgroundColor(color);
+                    series.setColor(equations.get(getAdapterPosition()).getColor());
 
-                graph.addSeries(series);
+                    equations.get(getAdapterPosition()).setColor(equations.get(getAdapterPosition()).getColor());
+                    equations.get(getAdapterPosition()).setLineGraphSeriess(series);
+                    colorItem.setBackgroundColor(equations.get(getAdapterPosition()).getColor());
 
 
             }
