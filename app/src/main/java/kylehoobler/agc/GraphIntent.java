@@ -256,7 +256,6 @@ public class GraphIntent extends AppCompatActivity {
         public LineGraphSeries series;
         private ImageView colorItem;
         private Context context;
-        private int color;
 
 
         public GraphHolder(@NonNull View itemView, final Context context, int i) {
@@ -274,9 +273,11 @@ public class GraphIntent extends AppCompatActivity {
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     //enabled.setChecked(b);
                     equations.get(getAdapterPosition()).setSelected(b);
-                    plotEQ();
 
+                    plotEQ();
                     updateGraph();
+
+
                 }
             });
 
@@ -284,7 +285,7 @@ public class GraphIntent extends AppCompatActivity {
         }
 
         public int getColor(){
-            return color;
+            return equations.get(getAdapterPosition()).getColor();
         }
 
 
@@ -347,8 +348,7 @@ public class GraphIntent extends AppCompatActivity {
                 removeEQ();
 
             }
+
         }
     }
-
-
 }
