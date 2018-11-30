@@ -15,10 +15,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class FormulaIntent extends AppCompatActivity implements Serializable{
+public class FormulaIntent extends AppCompatActivity implements Serializable {
 
     protected final String EQUATIONLIST = "equations";
 
@@ -32,12 +33,11 @@ public class FormulaIntent extends AppCompatActivity implements Serializable{
     private LinearLayoutManager layoutManager;
 
 
-
     @Override
     protected void onResume() {
         super.onResume();
 
-        if(recyclerView != null && layoutManager != null) {
+        if (recyclerView != null && layoutManager != null) {
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
             recyclerView.addItemDecoration(dividerItemDecoration);
         }
@@ -60,11 +60,11 @@ public class FormulaIntent extends AppCompatActivity implements Serializable{
         myToolBar = findViewById(R.id.my_toolbar);
         recyclerView = findViewById(R.id.list);
 
-        if(tmp != null){
+        if (tmp != null) {
 
             Gson gson = new Gson();
             items = gson.fromJson(tmp, ArrayList.class);
-            for(String x : items){
+            for (String x : items) {
                 equations.add(new SaveBuilder().convertToEquation(x));
             }
         }
@@ -84,14 +84,14 @@ public class FormulaIntent extends AppCompatActivity implements Serializable{
 
         this.setSupportActionBar(myToolBar);
 
-        if(equations == null || equations.isEmpty()) {
+        if (equations == null || equations.isEmpty()) {
             TextView emptyText = findViewById(R.id.empty);
             emptyText.setVisibility(View.VISIBLE);
 
         }
     }
 
-    public void launchCalculator(){
+    public void launchCalculator() {
 
         Intent tmp = new Intent(this, FormulaViewCalculator.class);
         this.startActivity(tmp);
@@ -99,7 +99,7 @@ public class FormulaIntent extends AppCompatActivity implements Serializable{
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         MenuItem tmp = menu.findItem(R.id.addItem);

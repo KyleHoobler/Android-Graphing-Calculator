@@ -32,14 +32,14 @@ public class FormulaViewCalculator extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         this.setContentView(R.layout.activity_formula_calculator);
-        text = (EditText)findViewById(R.id.DisplayNum);
+        text = (EditText) findViewById(R.id.DisplayNum);
         text.setFocusable(false);
         equation = new Equation();
 
-        if(savedInstanceState != null){
-            equation.setEquation(((ArrayList)savedInstanceState.get("eq")));
-            equation.decimalCount = (int)savedInstanceState.get("decCount");
-            if(equation.decimalCount > 0)
+        if (savedInstanceState != null) {
+            equation.setEquation(((ArrayList) savedInstanceState.get("eq")));
+            equation.decimalCount = (int) savedInstanceState.get("decCount");
+            if (equation.decimalCount > 0)
                 equation.setIsDecimal(true);
 
         }
@@ -66,8 +66,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
         startActivity(x);
     }
 
-    private void initCalculator(){
-
+    private void initCalculator() {
 
 
         //Buttons in Scrolling view
@@ -97,14 +96,14 @@ public class FormulaViewCalculator extends AppCompatActivity {
         Button sqrt = findViewById(R.id.SquareRoot);
 
 
-        Button [] base = {one, two, three, four, five, six, seven, eight, nine, zero, negate, decimal, sine, cosine, tangent, ln, log, factorial, pi, E, power, rParen, lParen, sqrt};
+        Button[] base = {one, two, three, four, five, six, seven, eight, nine, zero, negate, decimal, sine, cosine, tangent, ln, log, factorial, pi, E, power, rParen, lParen, sqrt};
 
         //Dims of screen
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
 
-        for (Button x : base){
+        for (Button x : base) {
 
             x.getLayoutParams().width = outMetrics.widthPixels / 4;
 
@@ -178,7 +177,6 @@ public class FormulaViewCalculator extends AppCompatActivity {
                 text.setSelection(text.getText().length());
             }
         });
-
 
 
         two.setOnClickListener(new View.OnClickListener() {
@@ -265,7 +263,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(equation != null || !equation.isEmpty()) {
+                if (equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.ADD));
                     updateTextView();
                     text.setSelection(text.getText().length());
@@ -276,7 +274,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
         multiply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(equation != null || !equation.isEmpty()) {
+                if (equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.MULT));
                     updateTextView();
                     text.setSelection(text.getText().length());
@@ -287,7 +285,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
         divide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(equation != null || !equation.isEmpty()) {
+                if (equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.DIV));
                     updateTextView();
                     text.setSelection(text.getText().length());
@@ -299,7 +297,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
         subtract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(equation != null || !equation.isEmpty()) {
+                if (equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.SUB));
                     updateTextView();
                     text.setSelection(text.getText().length());
@@ -310,7 +308,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
         power.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(equation != null || !equation.isEmpty()) {
+                if (equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.POW));
                     updateTextView();
                     text.setSelection(text.getText().length());
@@ -404,13 +402,12 @@ public class FormulaViewCalculator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(equation.numVars(0) < 13) {
+                if (equation.numVars(0) < 13) {
                     equation.addItem(new Variable());
                     updateTextView();
                     text.setSelection(text.getText().length());
 
-                }
-                else{
+                } else {
                     Toast.makeText(getApplicationContext(), "Too many variables entered.", Toast.LENGTH_LONG).show();
                 }
             }
@@ -428,7 +425,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!equation.isEmpty()) {
+                if (!equation.isEmpty()) {
                     equation.deleteItem();
                     updateTextView();
                     equation.setIsDecimal(false);
@@ -459,15 +456,12 @@ public class FormulaViewCalculator extends AppCompatActivity {
                 final Gson conv = new Gson();
 
 
-                if(eqListGSON != null){
+                if (eqListGSON != null) {
                     items = conv.fromJson(eqListGSON, ArrayList.class);
                 }
 
 
-
-
-
-                String saved =  new SaveBuilder().convertToString(equation);
+                String saved = new SaveBuilder().convertToString(equation);
 
                 items.add(saved);
 
@@ -489,16 +483,16 @@ public class FormulaViewCalculator extends AppCompatActivity {
     /**
      * Used to update a textview that is associated with the equation.
      */
-    protected void updateTextView(){
+    protected void updateTextView() {
 
-        if(text != null) {
+        if (text != null) {
 
             disableSaveButton();
 
             text.setText("");
             for (int i = 0; i < equation.size(); i++) {
 
-                if(equation.get(i) == null){
+                if (equation.get(i) == null) {
                     equation.clearEQ();
                     text.setText("Invalid Expression entered.");
 
@@ -507,7 +501,7 @@ public class FormulaViewCalculator extends AppCompatActivity {
 
                 //Handles Number representation
                 if (equation.get(i).getClass() == Number.class) {
-                    if(equation.decimalCount == 0) {
+                    if (equation.decimalCount == 0) {
                         text.setText(text.getText() + "" + ((Number) equation.get(i)).getValue().stripTrailingZeros().toPlainString());
                     } else
                         text.setText(text.getText() + "" + ((Number) equation.get(i)).getDisplayItem());
@@ -515,7 +509,6 @@ public class FormulaViewCalculator extends AppCompatActivity {
                 } else
                     text.setText(text.getText() + equation.get(i).getDisplayItem());
             }
-
 
 
             switch (text.getText().length()) {
@@ -540,25 +533,23 @@ public class FormulaViewCalculator extends AppCompatActivity {
         }
     }
 
-    private void disableSaveButton(){
-        if(!equation.isEmpty()) {
+    private void disableSaveButton() {
+        if (!equation.isEmpty()) {
             if (equation.endsInOperation()) {
                 save.setAlpha(.5f);
                 save.setEnabled(false);
-            }
-            else {
+            } else {
                 save.setEnabled(true);
                 save.setAlpha(1);
             }
 
-        }
-        else{
+        } else {
             save.setAlpha(.5f);
             save.setEnabled(false);
         }
     }
 
-    private void launchFormulaView(){
+    private void launchFormulaView() {
         Intent tmp = new Intent(this, FormulaIntent.class);
         this.startActivity(tmp);
     }

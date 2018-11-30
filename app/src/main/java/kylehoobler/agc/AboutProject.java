@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+/**
+ * This is a class that is dedicated to the information to this project
+ */
 public class AboutProject extends AppCompatActivity {
 
     private int buttonPress;
@@ -32,8 +35,8 @@ public class AboutProject extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(buttonPress <= 5)
-                buttonPress++;
+                if (buttonPress <= 5)
+                    buttonPress++;
                 else {
                     Toast.makeText(getApplicationContext(), "Thank you for downloading my app :)", Toast.LENGTH_LONG).show();
                     buttonPress = 0;
@@ -45,7 +48,7 @@ public class AboutProject extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.popup_menu, menu);
         return super.onCreateOptionsMenu(menu);

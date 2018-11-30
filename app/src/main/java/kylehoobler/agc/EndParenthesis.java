@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class EndParenthesis extends EquationPart implements Serializable {
 
 
-    protected EndParenthesis(){
+    protected EndParenthesis() {
 
         this.setDisplayItem(")");
         this.setPriority(9);

@@ -7,12 +7,12 @@ import java.math.BigDecimal;
     Operation Class for items that only require one number rather than 2 needed for operation
 
  */
-public class NumberOperation extends EquationPart implements java.io.Serializable{
+public class NumberOperation extends EquationPart implements java.io.Serializable {
 
     //String operation: defaults are found in Equation Part
     protected String operation;
 
-    protected NumberOperation(String op){
+    protected NumberOperation(String op) {
 
         operation = op;
 
@@ -49,15 +49,17 @@ public class NumberOperation extends EquationPart implements java.io.Serializabl
 
     /**
      * Get operatioin
+     *
      * @return
      */
-    protected String getOperation(){
+    protected String getOperation() {
         return operation;
     }
 
 
     /**
      * Solve the operation
+     *
      * @param tmp The number to be operated on
      * @return end result
      */
@@ -93,12 +95,11 @@ public class NumberOperation extends EquationPart implements java.io.Serializabl
 
 
             return tmp;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
         }
 
-       return null;
+        return null;
 
     }
 

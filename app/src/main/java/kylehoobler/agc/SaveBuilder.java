@@ -1,6 +1,5 @@
 package kylehoobler.agc;
 
-import android.util.Log;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
@@ -11,6 +10,11 @@ public class SaveBuilder {
 
     }
 
+    /**
+     * Convert equation to a string
+     * @param e
+     * @return
+     */
     public String convertToString(Equation e){
         String builder = "";
 
@@ -43,6 +47,11 @@ public class SaveBuilder {
     }
 
 
+    /**
+     * Convert String to equation
+     * @param e
+     * @return
+     */
     public Equation convertToEquation(String e){
         Equation equation = new Equation();
         Scanner str = new Scanner(e);
@@ -80,7 +89,6 @@ public class SaveBuilder {
                     case "Variable":
                         equation.addItem(new Variable());
                         break;
-
 
                 }
             }

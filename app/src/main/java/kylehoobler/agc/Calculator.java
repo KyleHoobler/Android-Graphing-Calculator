@@ -8,9 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
-import android.view.ActionMode;
 import android.view.Display;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -19,8 +17,6 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
 import java.util.ArrayList;
-
-import javax.security.auth.callback.Callback;
 
 
 public class Calculator extends AppCompatActivity {
@@ -31,7 +27,7 @@ public class Calculator extends AppCompatActivity {
     private EditText text;
 
 
-    private void initFormulaPage(){
+    private void initFormulaPage() {
 
         Intent intent = new Intent(this, FormulaIntent.class);
 
@@ -39,7 +35,7 @@ public class Calculator extends AppCompatActivity {
 
     }
 
-    private void initGraphPage(){
+    private void initGraphPage() {
 
         Intent gr = new Intent(this, GraphIntent.class);
         this.startActivity(gr);
@@ -48,7 +44,7 @@ public class Calculator extends AppCompatActivity {
 
 
     @SuppressLint("NewApi")
-    private void initCalculator(){
+    private void initCalculator() {
         setContentView(R.layout.activity_calculator);
 
         initCalcView();
@@ -56,22 +52,20 @@ public class Calculator extends AppCompatActivity {
 
     }
 
-    protected void initAboutPage(){
+    protected void initAboutPage() {
         Intent gr = new Intent(this, AboutProject.class);
         this.startActivity(gr);
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void initCalcView(){
+    public void initCalcView() {
 
 
         final ImageButton menuButton = findViewById(R.id.menuButton);
         text = (EditText) findViewById(R.id.DisplayNum);
         text.setFocusable(false);
         text.setLongClickable(false);
-
-
 
 
         equation = new Equation();
@@ -89,13 +83,11 @@ public class Calculator extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
 
-                        if(item.getTitle().equals("Formulas")){
+                        if (item.getTitle().equals("Formulas")) {
                             initFormulaPage();
-                        }
-                        else if(item.getTitle().equals("Graph")){
+                        } else if (item.getTitle().equals("Graph")) {
                             initGraphPage();
-                        }
-                        else if(item.getTitle().equals("About")){
+                        } else if (item.getTitle().equals("About")) {
                             initAboutPage();
                         }
 
@@ -134,15 +126,15 @@ public class Calculator extends AppCompatActivity {
         Button lParen = findViewById(R.id.LeftParen);
         Button sqrt = findViewById(R.id.SquareRoot);
 
-        Button [] base = {one, two, three, four, five, six, seven, eight, nine, zero, negate, decimal, sine, cosine, tangent, ln, log, factorial, pi, E, power, rParen, lParen, sqrt};
+        Button[] base = {one, two, three, four, five, six, seven, eight, nine, zero, negate, decimal, sine, cosine, tangent, ln, log, factorial, pi, E, power, rParen, lParen, sqrt};
 
         //Dims of screen
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
-        float density  = getResources().getDisplayMetrics().density;
+        float density = getResources().getDisplayMetrics().density;
 
-        for (Button x : base){
+        for (Button x : base) {
 
             x.getLayoutParams().width = outMetrics.widthPixels / 4;
 
@@ -295,7 +287,7 @@ public class Calculator extends AppCompatActivity {
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(equation != null || !equation.isEmpty()) {
+                if (equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.ADD));
                     updateTextView();
                     text.setSelection(text.getText().length());
@@ -306,7 +298,7 @@ public class Calculator extends AppCompatActivity {
         multiply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(equation != null || !equation.isEmpty()) {
+                if (equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.MULT));
                     updateTextView();
                     text.setSelection(text.getText().length());
@@ -317,7 +309,7 @@ public class Calculator extends AppCompatActivity {
         divide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(equation != null || !equation.isEmpty()) {
+                if (equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.DIV));
                     updateTextView();
                     text.setSelection(text.getText().length());
@@ -329,7 +321,7 @@ public class Calculator extends AppCompatActivity {
         subtract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(equation != null || !equation.isEmpty()) {
+                if (equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.SUB));
                     updateTextView();
                     text.setSelection(text.getText().length());
@@ -340,7 +332,7 @@ public class Calculator extends AppCompatActivity {
         power.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(equation != null || !equation.isEmpty()) {
+                if (equation != null || !equation.isEmpty()) {
                     equation.addItem(new Operation(EquationPart.POW));
                     updateTextView();
                     text.setSelection(text.getText().length());
@@ -351,7 +343,7 @@ public class Calculator extends AppCompatActivity {
         equals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!equation.isEmpty()) {
+                if (!equation.isEmpty()) {
                     equation.solve();
                     updateTextView();
                     text.setSelection(text.getText().length());
@@ -452,7 +444,7 @@ public class Calculator extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!equation.isEmpty()) {
+                if (!equation.isEmpty()) {
                     equation.deleteItem();
                     updateTextView();
                     equation.setIsDecimal(false);
@@ -488,36 +480,34 @@ public class Calculator extends AppCompatActivity {
     }
 
 
-
-
-        @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         initCalculator();
 
-            if(savedInstanceState != null){
-                equation.setEquation((ArrayList)savedInstanceState.get("eq"));
-                equation.decimalCount = (int)savedInstanceState.get("decCount");
-                if(equation.decimalCount > 0)
-                    equation.setIsDecimal(true);
+        if (savedInstanceState != null) {
+            equation.setEquation((ArrayList) savedInstanceState.get("eq"));
+            equation.decimalCount = (int) savedInstanceState.get("decCount");
+            if (equation.decimalCount > 0)
+                equation.setIsDecimal(true);
 
-                updateTextView();
-            }
+            updateTextView();
+        }
 
     }
 
     /**
      * Used to update a textview that is associated with the equation.
      */
-    protected void updateTextView(){
+    protected void updateTextView() {
 
-        if(text != null) {
+        if (text != null) {
 
             text.setText("");
             for (int i = 0; i < equation.size(); i++) {
 
-                if(equation.get(i) == null){
+                if (equation.get(i) == null) {
                     equation.clearEQ();
                     equation.addThis(new ErrorItem());
 
@@ -525,9 +515,8 @@ public class Calculator extends AppCompatActivity {
                 }
                 //Handles Number representation
                 if (equation.get(i).getClass() == Number.class && equation.decimalCount == 0) {
-                        text.setText(text.getText() + "" + ((Number) equation.get(i)).getValue().stripTrailingZeros().toPlainString());
-                }
-                else
+                    text.setText(text.getText() + "" + ((Number) equation.get(i)).getValue().stripTrailingZeros().toPlainString());
+                } else
                     text.setText(text.getText() + equation.get(i).getDisplayItem());
             }
 

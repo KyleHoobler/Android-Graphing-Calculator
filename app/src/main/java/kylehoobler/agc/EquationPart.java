@@ -3,15 +3,14 @@ package kylehoobler.agc;
 
 /**
  * Super class with priority system
- *
+ * <p>
  * This will be the superclass for all items that go into an equation
- *
+ * <p>
  * Made by Kyle Hoobler
- *
+ * <p>
  * CPSC 498
- *
  */
-class EquationPart implements java.io.Serializable{
+class EquationPart implements java.io.Serializable {
 
     private int priority;
     private String displayItem;
@@ -31,7 +30,6 @@ class EquationPart implements java.io.Serializable{
     protected static final String TAN = "Tangent";
     protected static final String LN = "LN";
     protected static final String SQRT = "Square Root";
-    protected static final String FAC = "Factorial";
     protected static final String PI = "Pi";
     protected static final String E = "e";
     protected static final String dispPlus = "+";
@@ -49,7 +47,7 @@ class EquationPart implements java.io.Serializable{
     protected static final String dispSQRT = "√";
 
 
-    protected EquationPart(){
+    protected EquationPart() {
 
         decimalLength = 10;
         displayItem = "";
@@ -58,32 +56,28 @@ class EquationPart implements java.io.Serializable{
 
     }
 
-    protected void setDisplayItem(String item){
+    protected void setDisplayItem(String item) {
         displayItem = item;
     }
 
-    protected String getDisplayItem(){
+    protected String getDisplayItem() {
         return displayItem;
     }
 
 
-    protected void setPriority(int val){
+    protected void setPriority(int val) {
 
         priority = (val < 0) ? 0 : val;
     }
 
-    protected int getPriority(){
+    protected int getPriority() {
         return priority;
     }
 
-    protected boolean addPriority(int i){
+    protected boolean addPriority(int i) {
 
-        //Check if value is negative for case use subtractPriority
-        if(i > 0) {
-            this.setPriority(this.getPriority() + i);
-            return true;
-        }
-        return false;
+        this.setPriority(this.getPriority() + i);
+        return true;
     }
 
 }

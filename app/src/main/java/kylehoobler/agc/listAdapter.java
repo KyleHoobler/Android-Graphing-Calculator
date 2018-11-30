@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+
 import com.google.gson.Gson;
 
 import java.math.BigDecimal;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
+public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder> {
 
     private ArrayList<Equation> mData;
     private LayoutInflater mInflater;
@@ -33,7 +34,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
     private ArrayList<EditText> variableInput;
 
 
-    public listAdapter(Context context, ArrayList<Equation> data){
+    public listAdapter(Context context, ArrayList<Equation> data) {
         mInflater = LayoutInflater.from(context);
         mData = data;
         this.context = context;
@@ -61,8 +62,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
     }
 
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView textView;
         private ImageButton options;
@@ -74,13 +74,12 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
             options = itemView.findViewById(R.id.rowOptions);
 
 
-
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(mData.get(getAdapterPosition()).numVars(0) != 0)
+                    if (mData.get(getAdapterPosition()).numVars(0) != 0)
                         makeVarDialogBox();
-                    else{
+                    else {
                         Equation vTemp = mData.get(getAdapterPosition()).clone();
                         displayAnswer(vTemp);
                     }
@@ -97,7 +96,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
                         @Override
                         public boolean onMenuItemClick(MenuItem menuItem) {
 
-                            switch (menuItem.getItemId()){
+                            switch (menuItem.getItemId()) {
                                 case R.id.Delete:
                                     mData.remove(getAdapterPosition());
                                     notifyDataSetChanged();
@@ -108,7 +107,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
 
                                     ArrayList<String> vals = new ArrayList<>();
 
-                                    for(int i = 0; i < mData.size(); i++){
+                                    for (int i = 0; i < mData.size(); i++) {
                                         vals.add(new SaveBuilder().convertToString(mData.get(i)));
                                     }
 
@@ -134,7 +133,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
         }
 
 
-        protected void makeVarDialogBox(){
+        protected void makeVarDialogBox() {
 
             variableInput = new ArrayList<>();
 
@@ -142,17 +141,17 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
             layout.setOrientation(LinearLayout.VERTICAL);
 
 
-            for(int i = 0; i < mData.get(getAdapterPosition()).numVars(0); i++){
+            for (int i = 0; i < mData.get(getAdapterPosition()).numVars(0); i++) {
 
                 variableInput.add(new EditText(context));
 
             }
 
             int tmp = 1;
-            for(EditText x : variableInput){
+            for (EditText x : variableInput) {
 
                 x.setHint("x" + tmp);
-                x.setInputType(InputType.TYPE_CLASS_NUMBER| InputType.TYPE_NUMBER_FLAG_DECIMAL| InputType.TYPE_NUMBER_FLAG_SIGNED);
+                x.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
 
                 layout.addView(x);
                 tmp++;
@@ -199,7 +198,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
 
         }
 
-        protected void displayAnswer(Equation e){
+        protected void displayAnswer(Equation e) {
             LinearLayout layout = new LinearLayout(context);
             layout.setOrientation(LinearLayout.VERTICAL);
 
@@ -217,16 +216,14 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
                 TextView text = (TextView) dialog.findViewById(android.R.id.message);
                 text.setTextSize(40);
 
+            } catch (Exception m) {
+                ErrorThrow("An Error has occurred.");
             }
-            catch (Exception m){
-              ErrorThrow("An Error has occurred.");
-            }
-
 
 
         }
 
-        protected void ErrorThrow(String message){
+        protected void ErrorThrow(String message) {
             final AlertDialog dialog = new AlertDialog.Builder(context).setTitle("Error").setMessage(message).setCancelable(true).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.dismiss();
@@ -235,13 +232,11 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
         }
 
 
-
-        protected Equation getItem(int i){
+        protected Equation getItem(int i) {
 
             try {
-                return (Equation)mData.get(i);
-            }
-            catch(Exception e){
+                return (Equation) mData.get(i);
+            } catch (Exception e) {
 
             }
             return new Equation();

@@ -9,7 +9,7 @@ class graphingObject {
     private int color;
     private LineGraphSeries LineGraphSeriess;
 
-    public graphingObject(Equation e, boolean isSelected, int color){
+    public graphingObject(Equation e, boolean isSelected, int color) {
         this.eq = e;
         this.isSelected = isSelected;
         this.color = color;
@@ -27,11 +27,11 @@ class graphingObject {
         return color;
     }
 
-    public void setColor(int color){
+    public void setColor(int color) {
         this.color = color;
     }
 
-    public void setSelected(boolean x){
+    public void setSelected(boolean x) {
         isSelected = x;
     }
 

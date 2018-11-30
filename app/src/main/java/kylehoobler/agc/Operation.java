@@ -4,26 +4,31 @@ package kylehoobler.agc;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class Operation extends EquationPart implements java.io.Serializable{
+public class Operation extends EquationPart implements java.io.Serializable {
 
     protected String operation;
 
-    protected Operation(String op){
+    protected Operation(String op) {
 
         operation = op;
         operationPriority();
 
         switch (this.operation) {
             case SUB:
-                this.setDisplayItem(dispSub); break;
+                this.setDisplayItem(dispSub);
+                break;
             case ADD:
-                this.setDisplayItem(dispPlus); break;
+                this.setDisplayItem(dispPlus);
+                break;
             case DIV:
-                this.setDisplayItem(dispDiv); break;
+                this.setDisplayItem(dispDiv);
+                break;
             case MULT:
-                this.setDisplayItem(dispTimes); break;
+                this.setDisplayItem(dispTimes);
+                break;
             case POW:
-                this.setDisplayItem(dispPow);break;
+                this.setDisplayItem(dispPow);
+                break;
         }
 
     }
@@ -31,10 +36,11 @@ public class Operation extends EquationPart implements java.io.Serializable{
 
     /**
      * This is in case I want to go back and add settings to this application so the user can specify how many decimal places that they want
+     *
      * @param op
      * @param decLen
      */
-    protected Operation(String op, int decLen){
+    protected Operation(String op, int decLen) {
 
         operation = op;
         operationPriority();
@@ -44,40 +50,50 @@ public class Operation extends EquationPart implements java.io.Serializable{
 
         switch (this.operation) {
             case SUB:
-                this.setDisplayItem(dispSub); break;
+                this.setDisplayItem(dispSub);
+                break;
             case ADD:
-                this.setDisplayItem(dispPlus); break;
+                this.setDisplayItem(dispPlus);
+                break;
             case DIV:
-                this.setDisplayItem(dispDiv); break;
+                this.setDisplayItem(dispDiv);
+                break;
             case MULT:
-                this.setDisplayItem(dispTimes); break;
+                this.setDisplayItem(dispTimes);
+                break;
             case POW:
-                this.setDisplayItem(dispPow);break;
+                this.setDisplayItem(dispPow);
+                break;
         }
 
     }
 
-    protected void operationPriority(){
+    protected void operationPriority() {
         switch (this.operation) {
             case SUB:
-                    this.addPriority(2); break;
+                this.addPriority(2);
+                break;
             case ADD:
-                    this.addPriority(2); break;
+                this.addPriority(2);
+                break;
             case DIV:
-                    this.addPriority(3); break;
+                this.addPriority(3);
+                break;
             case MULT:
-                    this.addPriority(3); break;
+                this.addPriority(3);
+                break;
             case POW:
-                this.addPriority(4); break;
+                this.addPriority(4);
+                break;
         }
 
     }
 
-    protected void setDecimalLength(int i){
+    protected void setDecimalLength(int i) {
         decimalLength = i;
     }
 
-    protected Number solveOp(Number x, Number y){
+    protected Number solveOp(Number x, Number y) {
 
         switch (this.operation) {
             case SUB:
@@ -95,12 +111,6 @@ public class Operation extends EquationPart implements java.io.Serializable{
         return null;
 
     }
-
-
-
-
-
-
 
 
 }
