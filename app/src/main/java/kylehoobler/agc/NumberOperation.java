@@ -1,17 +1,16 @@
 package kylehoobler.agc;
 
-import android.util.Log;
 
 import java.math.BigDecimal;
 
 /*
-    Operation Class for items that only require one number rather than 2
+    Operation Class for items that only require one number rather than 2 needed for operation
 
  */
 public class NumberOperation extends EquationPart implements java.io.Serializable{
 
+    //String operation: defaults are found in Equation Part
     protected String operation;
-
 
     protected NumberOperation(String op){
 
@@ -48,11 +47,20 @@ public class NumberOperation extends EquationPart implements java.io.Serializabl
 
     }
 
+    /**
+     * Get operatioin
+     * @return
+     */
     protected String getOperation(){
         return operation;
     }
 
 
+    /**
+     * Solve the operation
+     * @param tmp The number to be operated on
+     * @return end result
+     */
     protected Number numOpSolve(Number tmp) {
 
         try {

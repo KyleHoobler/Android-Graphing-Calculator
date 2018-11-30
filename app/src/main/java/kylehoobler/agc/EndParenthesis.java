@@ -8,7 +8,7 @@ public class EndParenthesis extends EquationPart implements Serializable {
     protected EndParenthesis(){
 
         this.setDisplayItem(")");
-        this.setPriority(1);
+        this.setPriority(9);
     }
 
 }
